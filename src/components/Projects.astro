@@ -16,13 +16,13 @@ import projects from "../data/projects.json";
 
   <div class="carousel-wrapper fade-in fade-in-delay-1">
     <div class="carousel" id="projects-carousel">
-      {projects.map((project, i) => (
+      {(projects.concat(projects)).map((project, i) => (
         <ProjectCard
           title={project.title}
           description={project.description}
           tags={project.tags}
           url={project.url}
-          index={i}
+          index={i % projects.length}
         />
       ))}
     </div>
@@ -52,17 +52,37 @@ import projects from "../data/projects.json";
   const nextBtn = document.getElementById("carousel-next");
 
   if (carousel && prevBtn && nextBtn) {
+    const cards = carousel.querySelectorAll(".project-card");
+    const total = cards.length / 2;
+
+    const getCardWidth = () => {
+      return cards[0].getBoundingClientRect().width + 24;
+    };
+
+    const jumpTo = (pos) => {
+      carousel.style.scrollBehavior = "auto";
+      carousel.scrollLeft = pos;
+      carousel.style.scrollBehavior = "";
+    };
+
     const scroll = (dir) => {
-      const card = carousel.querySelector(".project-card");
-      if (!card) return;
-      const step = card.getBoundingClientRect().width + 24; // card + gap
-      carousel.scrollBy({ left: dir * step, behavior: "smooth" });
+      const step = getCardWidth();
+      const maxScroll = step * total;
+
+      if (dir > 0 && carousel.scrollLeft >= maxScroll - step) {
+        jumpTo(0);
+        carousel.scrollBy({ left: step, behavior: "smooth" });
+      } else if (dir < 0 && carousel.scrollLeft < step) {
+        jumpTo(maxScroll);
+        carousel.scrollBy({ left: -step, behavior: "smooth" });
+      } else {
+        carousel.scrollBy({ left: dir * step, behavior: "smooth" });
+      }
     };
 
     prevBtn.addEventListener("click", () => scroll(-1));
     nextBtn.addEventListener("click", () => scroll(1));
 
-    // Keyboard navigation
     carousel.addEventListener("keydown", (e) => {
       if (e.key === "ArrowLeft") scroll(-1);
       if (e.key === "ArrowRight") scroll(1);
