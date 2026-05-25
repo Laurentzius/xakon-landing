@@ -178,7 +178,7 @@ const subtitle = "web developer / ai-first engineer";
 
       // Playful springy transition on physical boundaries (no squashing of shapes)
       var spring = '0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1)';
-      decor.style.transition = 'top ' + spring + ', left ' + spring + ', width ' + spring + ', height ' + spring + ', border-radius 0.8s ease';
+      decor.style.transition = 'top ' + spring + ', left ' + spring + ', width ' + spring + ', height ' + spring + ', border-radius ' + spring;
       
       decor.style.top = '0';
       decor.style.left = '0';
@@ -200,7 +200,7 @@ const subtitle = "web developer / ai-first engineer";
       if (!savedRect) return;
 
       var smooth = '0.7s cubic-bezier(0.16, 1, 0.3, 1)';
-      decor.style.transition = 'top ' + smooth + ', left ' + smooth + ', width ' + smooth + ', height ' + smooth + ', border-radius 0.7s ease';
+      decor.style.transition = 'top ' + smooth + ', left ' + smooth + ', width ' + smooth + ', height ' + smooth + ', border-radius ' + smooth;
       
       decor.style.top = savedRect.top + 'px';
       decor.style.left = savedRect.left + 'px';
@@ -212,10 +212,11 @@ const subtitle = "web developer / ai-first engineer";
       var hint = document.getElementById('fullscreen-hint');
       if (hint) hint.remove();
 
-      function onEnd() {
+      function onEnd(e) {
+        if (e.propertyName !== 'top' && e.propertyName !== 'width') return; // Ensure main transitions complete
         decor.removeEventListener('transitionend', onEnd);
         decor.style.position = 'absolute';
-        decor.style.top = decor.style.left = decor.style.width = decor.style.height = decor.style.overflow = decor.style.zIndex = decor.style.margin = decor.style.transformOrigin = decor.style.transform = decor.style.borderRadius = decor.style.transition = '';
+        decor.style.inset = decor.style.width = decor.style.height = decor.style.overflow = decor.style.zIndex = decor.style.margin = decor.style.transformOrigin = decor.style.transform = decor.style.borderRadius = decor.style.transition = '';
       }
       decor.addEventListener('transitionend', onEnd);
       isFull = false;
@@ -267,10 +268,9 @@ const subtitle = "web developer / ai-first engineer";
 
   .hero-decor {
     position: absolute;
-    inset: 0;
+    inset: -20%;
     pointer-events: none;
     overflow: hidden;
-    transform: scale(1.4);
     border-radius: 24px;
     opacity: 0;
     transition: opacity 1s ease-out;
