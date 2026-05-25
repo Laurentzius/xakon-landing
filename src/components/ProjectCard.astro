@@ -46,13 +46,14 @@ const accentColor = accentColors[index % accentColors.length];
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
     scroll-snap-align: start;
   }
 
   .project-card:hover {
     transform: translate(-8px, -8px);
     box-shadow: 12px 12px 0 var(--accent);
+    border-color: var(--accent);
   }
 
   .card-decor {
@@ -80,7 +81,13 @@ const accentColor = accentColors[index % accentColors.length];
     height: 60px;
     clip-path: polygon(100% 0, 100% 100%, 0 100%);
     opacity: 0.2;
+    transition: opacity 0.3s ease;
   }
+
+  .project-card:hover .card-corner {
+    opacity: 1;
+  }
+
 
   .card-body {
     flex: 1;

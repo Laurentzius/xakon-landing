@@ -7,7 +7,7 @@ import projects from "../data/projects.json";
   <div class="container">
     <div class="section-header fade-in">
       <span class="section-label">/ Projects</span>
-      <h2 class="section-title">Выбранные работы</h2>
+      <h2 class="section-title">Мои работы</h2>
       <p class="section-desc">
         Проекты, которые мы сделали в студии Bazeform и не только
       </p>
@@ -157,15 +157,17 @@ import projects from "../data/projects.json";
 
 <style>
   .projects {
-    padding: 100px 0;
+    padding: 80px 0 60px;
     position: relative;
     background: var(--white);
   }
 
   .section-header {
-    margin-bottom: 48px;
+    margin-bottom: 40px;
     position: relative;
   }
+
+
 
   .section-label {
     font-size: 0.75rem;
@@ -254,7 +256,10 @@ import projects from "../data/projects.json";
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                background 0.3s ease,
+                color 0.3s ease,
+                box-shadow 0.3s ease;
   }
 
   .carousel-btn:hover {

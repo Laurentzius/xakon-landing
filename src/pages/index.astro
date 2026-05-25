@@ -102,6 +102,8 @@ import Contact from "../components/Contact.astro";
     var els = document.querySelectorAll(MAGNETIC);
 
     els.forEach(function(el) {
+      var COMMON = ', background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease';
+
       el.addEventListener('mousemove', function(e) {
         var rect = el.getBoundingClientRect();
         var x = e.clientX - rect.left - rect.width / 2;
@@ -110,12 +112,12 @@ import Contact from "../components/Contact.astro";
         // Pull strength - 25% of the distance
         var strength = 0.25;
         el.style.transform = 'translate(' + (x * strength) + 'px, ' + (y * strength) + 'px)';
-        el.style.transition = 'transform 0.1s ease-out';
+        el.style.transition = 'transform 0.1s ease-out' + COMMON;
       });
 
       el.addEventListener('mouseleave', function() {
         el.style.transform = 'translate(0px, 0px)';
-        el.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; // elastic spring back
+        el.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)' + COMMON; // elastic spring back
       });
     });
   })();
