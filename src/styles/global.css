@@ -166,6 +166,36 @@ body {
   position: relative;
 }
 
+/* ── Performance optimizations ── */
+
+section {
+  content-visibility: auto;
+  contain-intrinsic-size: 100vh;
+}
+
+.hero-circle,
+.hero-blob,
+.hero-squiggle,
+.hero-zigzag,
+.hero-dots,
+.hero-grid,
+.circle-accent,
+.squiggle,
+.zigzag,
+.dot-pattern,
+.card-decor,
+.project-card {
+  will-change: transform, opacity;
+}
+
+/* Ensure animated bands don't cause layout shifts */
+.hero-band,
+.projects-band,
+.contact-band-top,
+.contact-band-bottom {
+  will-change: filter;
+}
+
 /* ── Decorative Memphis elements ── */
 
 /* Polka dot pattern */

@@ -33,9 +33,10 @@ const links = [
         </p>
       </div>
 
-      <div class="contact-links fade-in fade-in-delay-1">
-        {links.map((link) => (
-          <a href="" class="contact-link">
+      <div class="contact-links">
+        {links.map((link, i) => (
+          <a href={link.url} class="contact-link fade-in" style={`animation-delay: ${0.15 * i}s`}>
+
             <span class="contact-link-icon" set:html={link.icon}></span>
             <span class="contact-link-name">{link.name}</span>
             <span class="contact-link-arrow">→</span>

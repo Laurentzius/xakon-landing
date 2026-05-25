@@ -22,6 +22,9 @@ import Contact from "../components/Contact.astro";
     </script>
   </head>
   <body>
+    <!-- Custom cursor element -->
+    <div class="cursor" aria-hidden="true"></div>
+
     <Hero />
     <Projects />
     <Contact />
@@ -33,6 +36,81 @@ import Contact from "../components/Contact.astro";
     </footer>
   </body>
 </html>
+
+<script>
+  /* ── Smooth cursor ── */
+  (function() {
+    const cursor = document.querySelector(".cursor");
+    if (!cursor) return;
+
+    let mx = -100, my = -100;
+    let cx = -100, cy = -100;
+
+    document.addEventListener("mousemove", (e) => {
+      mx = e.clientX;
+      my = e.clientY;
+    });
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function animate() {
+      cx = lerp(cx, mx, 0.15);
+      cy = lerp(cy, my, 0.15);
+      cursor.style.transform = `translate(${cx}px, ${cy}px)`;
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    document.addEventListener("mouseenter", () => { cursor.style.opacity = 1; });
+    document.addEventListener("mouseleave", () => { cursor.style.opacity = 0; });
+  })();
+
+  /* ── Parallax scroll ── */
+  (function() {
+    const layers = [
+      { sel: ".hero-decor .hero-circle--red", speed: 0.15 },
+      { sel: ".hero-decor .hero-circle--blue", speed: -0.2 },
+      { sel: ".hero-decor .hero-circle--yellow", speed: 0.25 },
+      { sel: ".hero-decor .hero-blob", speed: -0.12 },
+      { sel: ".hero-decor .hero-grid", speed: 0.1 },
+      { sel: ".hero-decor .hero-dots", speed: -0.08 },
+      { sel: ".hero-decor .hero-squiggle", speed: 0.18 },
+      { sel: ".hero-decor .hero-zigzag", speed: -0.15 },
+      { sel: ".contact-decor .contact-circle", speed: -0.2 },
+      { sel: ".contact-decor .contact-squiggle", speed: 0.15 },
+    ];
+
+    const els = layers.map(l => {
+      const el = document.querySelector(l.sel);
+      return el ? { el, speed: l.speed } : null;
+    }).filter(Boolean);
+
+    if (!els.length) return;
+
+    function update() {
+      const sy = window.scrollY;
+      const vh = window.innerHeight;
+      els.forEach(({ el, speed }) => {
+        const rect = el.getBoundingClientRect();
+        const center = rect.top + rect.height / 2;
+        const progress = (center - vh * 0.5) / vh;
+        el.style.marginTop = `${progress * vh * speed * 0.3}px`;
+      });
+    }
+
+    let ticking = false;
+    window.addEventListener("scroll", () => {
+      if (!ticking) {
+        requestAnimationFrame(() => { update(); ticking = false; });
+        ticking = true;
+      }
+    });
+    update();
+  })();
+
+
+</script>
 
 <style>
   .footer {
@@ -48,5 +126,25 @@ import Contact from "../components/Contact.astro";
     letter-spacing: 0.12em;
     text-transform: uppercase;
     opacity: 0.6;
+  }
+
+  /* ── Custom cursor ── */
+  .cursor {
+    position: fixed;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--black);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-100px, -100px);
+    transition: opacity 0.3s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+    mix-blend-mode: difference;
+    opacity: 0;
+  }
+
+  /* Hide default cursor on interactive elements */
+  a, button {
+    cursor: none;
   }
 </style>

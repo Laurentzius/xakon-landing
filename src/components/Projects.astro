@@ -51,44 +51,88 @@ import projects from "../data/projects.json";
   const prevBtn = document.getElementById("carousel-prev");
   const nextBtn = document.getElementById("carousel-next");
 
-  if (carousel && prevBtn && nextBtn) {
-    const cards = carousel.querySelectorAll(".project-card");
-    const total = cards.length / 2;
+  if (!carousel || !prevBtn || !nextBtn) throw new Error("Carousel elements not found");
 
-    const getCardWidth = () => {
-      return cards[0].getBoundingClientRect().width + 24;
-    };
+  const cards = carousel.querySelectorAll(".project-card");
+  const total = cards.length / 2;
 
-    const jumpTo = (pos) => {
-      carousel.style.scrollBehavior = "auto";
-      carousel.scrollLeft = pos;
-      carousel.style.scrollBehavior = "";
-    };
+  let isDown = false;
+  let startX = 0;
+  let scrollStart = 0;
 
-    const scroll = (dir) => {
-      const step = getCardWidth();
-      const maxScroll = step * total;
-
-      if (dir > 0 && carousel.scrollLeft >= maxScroll - step) {
-        jumpTo(0);
-        carousel.scrollBy({ left: step, behavior: "smooth" });
-      } else if (dir < 0 && carousel.scrollLeft < step) {
-        jumpTo(maxScroll);
-        carousel.scrollBy({ left: -step, behavior: "smooth" });
-      } else {
-        carousel.scrollBy({ left: dir * step, behavior: "smooth" });
-      }
-    };
-
-    prevBtn.addEventListener("click", () => scroll(-1));
-    nextBtn.addEventListener("click", () => scroll(1));
-
-    carousel.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowLeft") scroll(-1);
-      if (e.key === "ArrowRight") scroll(1);
-    });
+  function getCardWidth() {
+    return cards[0].getBoundingClientRect().width + 24;
   }
+
+  function jumpTo(pos) {
+    carousel.style.scrollBehavior = "auto";
+    carousel.scrollLeft = pos;
+    carousel.style.scrollBehavior = "";
+  }
+
+  function scroll(dir) {
+    const step = getCardWidth();
+    const maxScroll = step * total;
+
+    if (dir > 0 && carousel.scrollLeft >= maxScroll - step) {
+      jumpTo(0);
+      carousel.scrollBy({ left: step, behavior: "smooth" });
+    } else if (dir < 0 && carousel.scrollLeft < step) {
+      jumpTo(maxScroll);
+      carousel.scrollBy({ left: -step, behavior: "smooth" });
+    } else {
+      carousel.scrollBy({ left: dir * step, behavior: "smooth" });
+    }
+  }
+
+  /* ── Drag-to-scroll via Pointer Events ── */
+  carousel.addEventListener("pointerdown", (e) => {
+    isDown = true;
+    startX = e.pageX;
+    scrollStart = carousel.scrollLeft;
+    carousel.style.cursor = "grabbing";
+    carousel.style.scrollSnapType = "none";
+  });
+
+  document.addEventListener("pointermove", (e) => {
+    if (!isDown) return;
+    const dx = e.pageX - startX;
+    carousel.scrollLeft = scrollStart - dx;
+  });
+
+  document.addEventListener("pointerup", () => {
+    if (!isDown) return;
+    isDown = false;
+    carousel.style.cursor = "grab";
+    carousel.style.scrollSnapType = "";
+  });
+
+  document.addEventListener("pointercancel", () => {
+    if (!isDown) return;
+    isDown = false;
+    carousel.style.cursor = "grab";
+    carousel.style.scrollSnapType = "";
+  });
+
+
+
+  /* ── Buttons ── */
+  prevBtn.addEventListener("click", () => scroll(-1));
+  nextBtn.addEventListener("click", () => scroll(1));
+
+  /* ── Keyboard ── */
+  carousel.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") scroll(-1);
+    if (e.key === "ArrowRight") scroll(1);
+  });
+
+  /* ── Touch / wheel fine-tune ── */
+  carousel.addEventListener("wheel", (e) => {
+    if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) return;
+    e.preventDefault();
+  }, { passive: false });
 </script>
+
 
 <style>
   .projects {
@@ -153,18 +197,20 @@ import projects from "../data/projects.json";
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pinch-zoom;
     padding: 16px 4px 24px;
     scrollbar-width: none;
     cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
   }
+
 
   .carousel::-webkit-scrollbar {
     display: none;
   }
 
-  .carousel:active {
-    cursor: grabbing;
-  }
+
 
   .carousel-controls {
     display: flex;

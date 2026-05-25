@@ -35,6 +35,7 @@ const subtitle = "Web Development Studio";
       </svg>
 
       <div class="hero-dots"></div>
+      <div class="hero-blob" aria-hidden="true"></div>
     </div>
 
     <div class="hero-content fade-in">
@@ -83,6 +84,35 @@ const subtitle = "Web Development Studio";
 </section>
 
 <style>
+  /* ── Morphing animations ── */
+
+  @keyframes morph-blob {
+    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+    50% { border-radius: 50% 60% 30% 60% / 40% 50% 50% 50%; }
+    75% { border-radius: 60% 30% 50% 50% / 30% 60% 40% 70%; }
+  }
+
+  @keyframes color-drift {
+    0% { filter: hue-rotate(0deg) saturate(1); }
+    25% { filter: hue-rotate(90deg) saturate(1.2); }
+    50% { filter: hue-rotate(180deg) saturate(1); }
+    75% { filter: hue-rotate(270deg) saturate(1.1); }
+    100% { filter: hue-rotate(360deg) saturate(1); }
+  }
+
+  @keyframes float-complex {
+    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    25% { transform: translate(40px, -50px) rotate(5deg) scale(1.08); }
+    50% { transform: translate(-20px, -90px) rotate(-3deg) scale(0.95); }
+    75% { transform: translate(-50px, -30px) rotate(4deg) scale(1.03); }
+  }
+
+  @keyframes title-reveal {
+    0% { letter-spacing: -0.15em; opacity: 0; }
+    40% { opacity: 0.4; }
+    100% { letter-spacing: -0.03em; opacity: 1; }
+  }
   .hero {
     min-height: 100dvh;
     display: flex;
@@ -111,7 +141,8 @@ const subtitle = "Web Development Studio";
     background: var(--red);
     top: -100px;
     right: -80px;
-    animation: float 12s ease-in-out infinite;
+    animation: float-complex 16s ease-in-out infinite, color-drift 12s linear infinite;
+    opacity: 0.12;
   }
 
   .hero-circle--blue {
@@ -120,7 +151,7 @@ const subtitle = "Web Development Studio";
     background: var(--blue);
     bottom: 10%;
     left: -60px;
-    animation: float 14s ease-in-out infinite reverse;
+    animation: float-complex 20s ease-in-out infinite reverse, color-drift 15s linear infinite reverse;
   }
 
   .hero-circle--yellow {
@@ -129,7 +160,8 @@ const subtitle = "Web Development Studio";
     background: var(--yellow);
     top: 30%;
     left: 15%;
-    animation: pulse-rotate 10s ease-in-out infinite;
+    animation: float-complex 14s ease-in-out infinite, color-drift 8s linear infinite;
+    opacity: 0.12;
   }
 
   .hero-squiggle {
@@ -138,7 +170,7 @@ const subtitle = "Web Development Studio";
     height: 50px;
     bottom: 200px;
     right: 10%;
-    animation: squiggle-drift 8s ease-in-out infinite alternate;
+    animation: squiggle-drift 8s ease-in-out infinite alternate, color-drift 6s linear infinite;
   }
 
   .hero-grid {
@@ -172,6 +204,17 @@ const subtitle = "Web Development Studio";
     background-size: 20px 20px;
     opacity: 0.06;
   }
+  .hero-blob {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: linear-gradient(135deg, var(--pink), var(--yellow));
+    opacity: 0.08;
+    top: 60%;
+    left: 60%;
+    animation: morph-blob 14s ease-in-out infinite, float-complex 18s ease-in-out infinite, color-drift 10s linear infinite;
+    filter: blur(30px);
+  }
 
   .hero-content {
     position: relative;
@@ -202,6 +245,7 @@ const subtitle = "Web Development Studio";
     margin-bottom: 16px;
     cursor: pointer;
     user-select: none;
+    animation: title-reveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   .hero-title-line {
