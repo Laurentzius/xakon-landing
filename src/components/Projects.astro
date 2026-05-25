@@ -104,14 +104,22 @@ import projects from "../data/projects.json";
     if (!isDown) return;
     isDown = false;
     carousel.style.cursor = "grab";
+    carousel.style.scrollBehavior = "smooth";
     carousel.style.scrollSnapType = "";
+    setTimeout(() => {
+      carousel.style.scrollBehavior = "";
+    }, 350);
   });
 
   document.addEventListener("pointercancel", () => {
     if (!isDown) return;
     isDown = false;
     carousel.style.cursor = "grab";
+    carousel.style.scrollBehavior = "smooth";
     carousel.style.scrollSnapType = "";
+    setTimeout(() => {
+      carousel.style.scrollBehavior = "";
+    }, 350);
   });
 
 
