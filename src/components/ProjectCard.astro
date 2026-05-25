@@ -1,0 +1,162 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  tags: string[];
+  url: string;
+  index: number;
+}
+
+const { title, description, tags, url, index } = Astro.props;
+
+// Generate a deterministic accent color based on index
+const accentColors = ["var(--red)", "var(--blue)", "var(--yellow)", "var(--green)", "var(--pink)", "var(--orange)"];
+const accentColor = accentColors[index % accentColors.length];
+---
+
+<article class="project-card" style={`--accent: ${accentColor}`}>
+  <!-- Decorative block -->
+  <div class="card-decor" aria-hidden="true">
+    <div class="card-dot-grid"></div>
+    <div class="card-corner" style={`background: ${accentColor}`}></div>
+  </div>
+
+  <div class="card-body">
+    <div class="card-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</div>
+    <h3 class="card-title">{title}</h3>
+    <p class="card-desc">{description}</p>
+    <div class="card-tags">
+      {tags.map((tag) => (
+        <span class="tag">{tag}</span>
+      ))}
+    </div>
+    <a href={url} class="card-link">
+      Открыть проект →
+    </a>
+  </div>
+</article>
+
+<style>
+  .project-card {
+    flex: 0 0 360px;
+    min-height: 420px;
+    border: 3px solid var(--black);
+    background: var(--white);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    scroll-snap-align: start;
+  }
+
+  .project-card:hover {
+    transform: translate(-6px, -6px);
+    box-shadow: 10px 10px 0 var(--black);
+  }
+
+  .card-decor {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .card-dot-grid {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 80px;
+    height: 80px;
+    background-image: radial-gradient(circle, var(--black) 1.5px, transparent 1.5px);
+    background-size: 12px 12px;
+    opacity: 0.06;
+  }
+
+  .card-corner {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    opacity: 0.15;
+  }
+
+  .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .card-index {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--black);
+    opacity: 0.06;
+    margin-bottom: 16px;
+  }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    color: var(--black);
+  }
+
+  .card-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--black);
+    opacity: 0.7;
+    flex: 1;
+    margin-bottom: 20px;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 2px solid var(--black);
+    background: transparent;
+    color: var(--black);
+  }
+
+  .card-link {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    color: var(--accent, var(--black));
+    border-bottom: 2px solid currentColor;
+    padding-bottom: 2px;
+    width: fit-content;
+    transition: opacity 0.2s;
+  }
+
+  .card-link:hover {
+    opacity: 0.6;
+  }
+
+  .card-link--soon {
+    opacity: 0.4;
+    cursor: default;
+    border-bottom-style: dashed;
+  }
+</style>

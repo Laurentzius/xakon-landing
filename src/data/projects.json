@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Bazeform",
+    "description": "Студия веб-разработки. Сложные интерфейсы, архитектура и продуктовый дизайн.",
+    "tags": ["React", "Next.js", "TypeScript", "Tailwind"],
+    "url": "",
+    "image": null
+  },
+  {
+    "title": "AndartIT",
+    "description": "IT-аутсорсинг и сервисная платформа. Автоматизация бизнес-процессов.",
+    "tags": ["React", "Node.js", "PostgreSQL"],
+    "url": "",
+    "image": null
+  },
+  {
+    "title": "Provogatto",
+    "description": "Сервис для организации мероприятий и коворкингов. Бронирование, расписание, билеты.",
+    "tags": ["Next.js", "TypeScript", "Prisma"],
+    "url": "",
+    "image": null
+  },
+  {
+    "title": "Prostorent",
+    "description": "Платформа аренды коммерческой недвижимости. Поиск, сравнение, бронирование.",
+    "tags": ["React", "Node.js", "MongoDB"],
+    "url": "",
+    "image": null
+  },
+  {
+    "title": "Uyrent",
+    "description": "Сервис аренды жилья и управления недвижимостью. Личный кабинет арендатора.",
+    "tags": ["React", "TypeScript", "Docker"],
+    "url": "",
+    "image": null
+  },
+  {
+    "title": "Blocx",
+    "description": "Блокчейн-инструментарий и DeFi решения. Смарт-контракты и децентрализованные приложения.",
+    "tags": ["Solidity", "Web3", "TypeScript"],
+    "url": "",
+    "image": null
+  }
+]

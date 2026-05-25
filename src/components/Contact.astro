@@ -1,0 +1,242 @@
+---
+const links = [
+  {
+    name: "GitHub",
+    url: "https://github.com/xakon",
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>`,
+  },
+  {
+    name: "Telegram",
+    url: "https://t.me/xakon",
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.162c-.18 1.897-.963 6.524-1.36 8.656-.168.9-.5 1.202-.822 1.232-.697.065-1.226-.46-1.902-.902-1.056-.693-1.654-1.124-2.68-1.8-1.186-.78-.417-1.21.26-1.912.177-.183 3.246-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.248-.024c-.106.024-1.793 1.14-5.06 3.345-.48.33-.913.49-1.302.482-.428-.01-1.252-.242-1.865-.441-.752-.245-1.35-.374-1.297-.79.027-.217.326-.44.896-.67 3.518-1.533 5.866-2.543 7.043-3.03 3.353-1.387 4.05-1.628 4.504-1.636.1-.002.323.023.468.14.12.097.152.228.168.346.016.118.036.387.02.597z"/></svg>`,
+  },
+  {
+    name: "Email",
+    url: "mailto:hello@xakon.dev",
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
+  },
+];
+---
+
+<section class="contact" id="contact">
+  <!-- Decorative band at top -->
+  <div class="contact-band-top" aria-hidden="true"></div>
+
+  <div class="container">
+    <div class="contact-layout">
+      <div class="contact-info fade-in">
+        <span class="section-label">/ Contact</span>
+        <h2 class="section-title">Связаться</h2>
+        <p class="section-desc">
+          Открыт к предложениям, коллаборациям и новым проектам.
+          Пиши в Telegram или на почту.
+        </p>
+      </div>
+
+      <div class="contact-links fade-in fade-in-delay-1">
+        {links.map((link) => (
+          <a href="" class="contact-link">
+            <span class="contact-link-icon" set:html={link.icon}></span>
+            <span class="contact-link-name">{link.name}</span>
+            <span class="contact-link-arrow">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom decoration -->
+  <div class="contact-decor" aria-hidden="true">
+    <div class="contact-circle"></div>
+    <div class="contact-squiggle">
+      <svg viewBox="0 0 200 30" width="200" height="30">
+        <path d="M0 15 Q25 0 50 15 T100 15 T150 15 T200 15" fill="none" stroke="var(--black)" stroke-width="2" opacity="0.1"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="contact-band-bottom" aria-hidden="true"></div>
+</section>
+
+<style>
+  .contact {
+    padding: 100px 0 80px;
+    position: relative;
+    background: var(--white);
+  }
+
+  .contact-band-top {
+    width: 100%;
+    height: 8px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--black) 0px,
+      var(--black) 15px,
+      var(--pink) 15px,
+      var(--pink) 30px,
+      var(--blue) 30px,
+      var(--blue) 45px
+    );
+    background-size: 45px 8px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .contact-band-bottom {
+    width: 100%;
+    height: 12px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--green) 0px,
+      var(--green) 12px,
+      var(--yellow) 12px,
+      var(--yellow) 24px,
+      var(--black) 24px,
+      var(--black) 36px
+    );
+    background-size: 36px 12px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  .contact-decor {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .contact-circle {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: var(--blue);
+    opacity: 0.06;
+    top: 20%;
+    right: -60px;
+    animation: float 15s ease-in-out infinite;
+  }
+
+  .contact-squiggle {
+    position: absolute;
+    bottom: 100px;
+    right: 10%;
+    transform: rotate(-10deg);
+    animation: squiggle-drift 7s ease-in-out infinite alternate;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--red);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-bottom: 12px;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-title::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: var(--pink);
+    opacity: 0.3;
+    z-index: -1;
+  }
+
+  .section-desc {
+    font-size: 1rem;
+    color: var(--black);
+    opacity: 0.6;
+    max-width: 440px;
+  }
+
+  .contact-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 48px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  .contact-info {
+    flex: 1;
+    min-width: 280px;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 280px;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    text-decoration: none;
+    color: var(--black);
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .contact-link:hover {
+    border-color: var(--black);
+    transform: translate(-4px, -4px);
+    box-shadow: 6px 6px 0 var(--yellow);
+    background: var(--white);
+  }
+
+  .contact-link-icon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--black);
+    opacity: 0.8;
+  }
+
+  .contact-link-name {
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex: 1;
+  }
+
+  .contact-link-arrow {
+    font-size: 1.2rem;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.2s ease;
+  }
+
+  .contact-link:hover .contact-link-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>

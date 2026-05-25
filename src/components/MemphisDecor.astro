@@ -1,0 +1,120 @@
+---
+// Decorative Memphis-style elements scattered across sections
+// Each element is positioned absolutely with no interaction
+---
+
+<!-- Large red circle -->
+<div
+  class="circle-accent decor-circle-1"
+  aria-hidden="true"
+  style="
+    width: 180px;
+    height: 180px;
+    background: var(--red);
+    opacity: 0.12;
+    top: -60px;
+    right: -40px;
+  "
+></div>
+
+<!-- Blue circle -->
+<div
+  class="circle-accent decor-circle-2"
+  aria-hidden="true"
+  style="
+    width: 120px;
+    height: 120px;
+    background: var(--blue);
+    opacity: 0.1;
+    bottom: 80px;
+    left: -50px;
+  "
+></div>
+
+<!-- Yellow triangle -->
+<svg
+  class="triangle-accent decor-triangle-1"
+  aria-hidden="true"
+  style="
+    width: 100px;
+    height: 100px;
+    top: 40%;
+    right: 8%;
+    opacity: 0.15;
+  "
+  viewBox="0 0 100 100"
+>
+  <polygon points="50,0 100,100 0,100" fill="var(--yellow)" />
+</svg>
+
+<!-- Pink squiggle line -->
+<svg
+  class="squiggle decor-squiggle-1"
+  aria-hidden="true"
+  style="
+    width: 200px;
+    height: 40px;
+    bottom: 120px;
+    left: 5%;
+    opacity: 0.2;
+  "
+  viewBox="0 0 200 40"
+>
+  <path
+    d="M0 20 Q25 0 50 20 T100 20 T150 20 T200 20"
+    fill="none"
+    stroke="var(--pink)"
+    stroke-width="4"
+    stroke-linecap="round"
+  />
+</svg>
+
+<!-- Black zigzag -->
+<svg
+  class="zigzag decor-zigzag-1"
+  aria-hidden="true"
+  style="
+    width: 140px;
+    height: 60px;
+    top: 20%;
+    left: 3%;
+    opacity: 0.08;
+  "
+  viewBox="0 0 140 60"
+>
+  <polyline
+    points="0,60 20,0 40,60 60,0 80,60 100,0 120,60 140,0"
+    fill="none"
+    stroke="var(--black)"
+    stroke-width="3"
+    stroke-linecap="square"
+    stroke-linejoin="miter"
+  />
+</svg>
+
+<!-- Dot pattern block -->
+<div
+  class="dot-pattern decor-dots-1"
+  aria-hidden="true"
+  style="
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    right: 0;
+  "
+></div>
+
+<style>
+  .decor-circle-1 {
+    animation: float 8s ease-in-out infinite;
+  }
+  .decor-circle-2 {
+    animation: float 10s ease-in-out infinite reverse;
+  }
+  .decor-squiggle-1 {
+    animation: squiggle-drift 6s ease-in-out infinite alternate;
+  }
+  .decor-triangle-1 {
+    animation: pulse-rotate 12s ease-in-out infinite;
+  }
+</style>
