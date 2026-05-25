@@ -160,15 +160,18 @@ const subtitle = "web developer / ai-first engineer";
       var rect = decor.getBoundingClientRect();
       savedRect = rect;
 
-      // Start visually in-place using absolute dimensions converted to fixed
+      // Cancel any active animations + reset inline transition
+      decor.getAnimations().forEach(function(a) { a.cancel(); });
       decor.style.transition = 'none';
+
+      // Start visually in-place using absolute dimensions converted to fixed
       decor.style.position = 'fixed';
-      decor.style.inset = 'auto'; // Disable CSS top, right, bottom, left conflicts
+      decor.style.inset = 'auto'; // Disable CSS top/right/bottom/left conflicts
       decor.style.top = rect.top + 'px';
       decor.style.left = rect.left + 'px';
       decor.style.width = rect.width + 'px';
       decor.style.height = rect.height + 'px';
-      decor.style.overflow = 'visible';
+      decor.style.overflow = 'visible'; // Let shapes float beyond bounds during fullscreen
       decor.style.zIndex = '0'; // Keep behind text & buttons
       decor.style.margin = '0';
       decor.style.transform = 'none';
@@ -200,6 +203,10 @@ const subtitle = "web developer / ai-first engineer";
     function collapse() {
       if (!savedRect) return;
 
+      // Set overflow: hidden IMMEDIATELY at the start of collapse so the shapes'
+      // clipping mask transitions smoothly instead of snapping at the very end.
+      decor.style.overflow = 'hidden';
+
       var smooth = '0.7s cubic-bezier(0.16, 1, 0.3, 1)';
       decor.style.transition = 'top ' + smooth + ', left ' + smooth + ', width ' + smooth + ', height ' + smooth + ', border-radius ' + smooth;
       
@@ -213,11 +220,27 @@ const subtitle = "web developer / ai-first engineer";
       var hint = document.getElementById('fullscreen-hint');
       if (hint) hint.remove();
 
+      // Track all transitioning properties to ensure 100% complete rendering before cleanup
+      var pendingProps = ['top', 'left', 'width', 'height', 'border-radius'];
+      var cleanedUp = false;
+      
       function onEnd(e) {
-        if (e.propertyName !== 'top' && e.propertyName !== 'width') return; // Ensure main transitions complete
+        if (cleanedUp) return;
+        var idx = pendingProps.indexOf(e.propertyName);
+        if (idx !== -1) pendingProps.splice(idx, 1);
+        if (pendingProps.length > 0) return;
+        cleanedUp = true;
+
         decor.removeEventListener('transitionend', onEnd);
-        decor.style.position = 'absolute';
-        decor.style.inset = decor.style.width = decor.style.height = decor.style.overflow = decor.style.zIndex = decor.style.margin = decor.style.transformOrigin = decor.style.transform = decor.style.borderRadius = decor.style.transition = '';
+        
+        // Double requestAnimationFrame ensures the browser completely paints
+        // the final transition frame before inline styles are cleared.
+        requestAnimationFrame(function() {
+          requestAnimationFrame(function() {
+            decor.style.position = 'absolute';
+            decor.style.inset = decor.style.width = decor.style.height = decor.style.overflow = decor.style.zIndex = decor.style.margin = decor.style.transformOrigin = decor.style.transform = decor.style.borderRadius = decor.style.transition = '';
+          });
+        });
       }
       decor.addEventListener('transitionend', onEnd);
       isFull = false;
