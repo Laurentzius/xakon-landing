@@ -41,6 +41,9 @@ import projects from "../data/projects.json";
       </button>
     </div>
   </div>
+
+  <!-- Decorative band -->
+  <div class="projects-band" aria-hidden="true"></div>
 </section>
 
 <script>
@@ -177,5 +180,28 @@ import projects from "../data/projects.json";
   .carousel-btn:active {
     transform: translate(0, 0);
     box-shadow: none;
+  }
+
+  .projects-band {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--black) 0px,
+      var(--black) 15px,
+      var(--yellow) 15px,
+      var(--yellow) 30px,
+      var(--pink) 30px,
+      var(--pink) 45px,
+      var(--blue) 45px,
+      var(--blue) 60px,
+      var(--green) 60px,
+      var(--green) 75px
+    );
+    background-size: 75px 8px;
+    animation: hue-shift 3s linear infinite;
   }
 </style>
