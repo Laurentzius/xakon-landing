@@ -22,9 +22,9 @@ import Contact from "../components/Contact.astro";
     </script>
   </head>
   <body>
-    <!-- Custom cursor element -->
-    <div class="cursor" aria-hidden="true"></div>
-
+    <!-- Custom cursor elements -->
+    <div class="cursor-dot" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true"></div>
     <Hero />
     <Projects />
     <Contact />
@@ -38,15 +38,18 @@ import Contact from "../components/Contact.astro";
 </html>
 
 <script>
-  /* ── Smooth cursor ── */
+  /* ── Smooth cursor (dot + ring) ── */
   (function() {
-    const cursor = document.querySelector(".cursor");
-    if (!cursor) return;
+    var dot = document.querySelector(".cursor-dot");
+    var ring = document.querySelector(".cursor-ring");
+    if (!dot || !ring) return;
 
-    let mx = -100, my = -100;
-    let cx = -100, cy = -100;
+    var mx = -100, my = -100;
+    var dx = -100, dy = -100;
+    var rx = -100, ry = -100;
+    var hoverEl = null;
 
-    document.addEventListener("mousemove", (e) => {
+    document.addEventListener("mousemove", function(e) {
       mx = e.clientX;
       my = e.clientY;
     });
@@ -54,16 +57,43 @@ import Contact from "../components/Contact.astro";
     function lerp(a, b, t) { return a + (b - a) * t; }
 
     function animate() {
-      cx = lerp(cx, mx, 0.15);
-      cy = lerp(cy, my, 0.15);
-      cursor.style.transform = `translate(${cx}px, ${cy}px)`;
+      dx = lerp(dx, mx, 0.2);
+      dy = lerp(dy, my, 0.2);
+      rx = lerp(rx, mx, 0.08);
+      ry = lerp(ry, my, 0.08);
+      dot.style.left = dx + "px";
+      dot.style.top = dy + "px";
+      ring.style.left = rx + "px";
+      ring.style.top = ry + "px";
       requestAnimationFrame(animate);
     }
-
     animate();
 
-    document.addEventListener("mouseenter", () => { cursor.style.opacity = 1; });
-    document.addEventListener("mouseleave", () => { cursor.style.opacity = 0; });
+    document.addEventListener("mouseenter", function() {
+      dot.style.opacity = 1;
+      ring.style.opacity = 1;
+    });
+    document.addEventListener("mouseleave", function() {
+      dot.style.opacity = 0;
+      ring.style.opacity = 0;
+    });
+
+    /* ── Hover effect on interactive elements ── */
+    var INTERACTIVE = 'a, button, [role="button"], .carousel-btn, .contact-link';
+
+    document.addEventListener("mouseover", function(e) {
+      var t = e.target.closest(INTERACTIVE);
+      if (t !== hoverEl) {
+        hoverEl = t;
+        if (t) {
+          ring.classList.add("cursor-ring--hover");
+          dot.classList.add("cursor-dot--hover");
+        } else {
+          ring.classList.remove("cursor-ring--hover");
+          dot.classList.remove("cursor-dot--hover");
+        }
+      }
+    });
   })();
 
   /* ── Parallax scroll ── */
@@ -175,23 +205,52 @@ import Contact from "../components/Contact.astro";
     opacity: 0.6;
   }
 
-  /* ── Custom cursor ── */
-  .cursor {
+  /* ── Custom cursor (dot + ring) ── */
+
+  .cursor-dot,
+  .cursor-ring {
     position: fixed;
-    width: 24px;
-    height: 24px;
-    border: 2px solid var(--black);
     border-radius: 50%;
     pointer-events: none;
-    z-index: 9999;
-    transform: translate(-100px, -100px);
-    transition: opacity 0.3s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+  }
+
+  .cursor-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--black);
+    z-index: 10000;
+    transition: opacity 0.3s ease, width 0.3s ease, height 0.3s ease;
     mix-blend-mode: difference;
     opacity: 0;
   }
 
-  /* Hide default cursor on interactive elements */
-  a, button {
+  .cursor-dot--hover {
+    width: 10px;
+    height: 10px;
+  }
+
+  .cursor-ring {
+    width: 34px;
+    height: 34px;
+    border: 1.5px solid var(--black);
+    z-index: 9999;
+    transition: opacity 0.3s ease, width 0.4s ease, height 0.4s ease, border-color 0.3s ease, background 0.3s ease;
+    mix-blend-mode: difference;
+    opacity: 0;
+  }
+
+  .cursor-ring--hover {
+    width: 54px;
+    height: 54px;
+    background: rgba(255, 190, 11, 0.1);
+  }
+
+  /* Hide default cursor */
+  a, button, [role="button"] {
     cursor: none;
   }
 </style>
