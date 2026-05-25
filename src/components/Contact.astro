@@ -46,14 +46,29 @@ const links = [
     </div>
   </div>
 
-  <!-- Bottom decoration -->
+  <!-- Decorative animated elements -->
   <div class="contact-decor" aria-hidden="true">
-    <div class="contact-circle"></div>
-    <div class="contact-squiggle">
-      <svg viewBox="0 0 200 30" width="200" height="30">
-        <path d="M0 15 Q25 0 50 15 T100 15 T150 15 T200 15" fill="none" stroke="var(--black)" stroke-width="2" opacity="0.1"/>
-      </svg>
-    </div>
+    <div class="contact-circle contact-circle--blue"></div>
+    <div class="contact-circle contact-circle--red"></div>
+    <div class="contact-circle contact-circle--yellow"></div>
+
+    <svg class="contact-squiggle" viewBox="0 0 200 30">
+      <path d="M0 15 Q25 0 50 15 T100 15 T150 15 T200 15" fill="none" stroke="var(--black)" stroke-width="2" opacity="0.1"/>
+    </svg>
+
+    <div class="contact-dots"></div>
+
+    <svg class="contact-zigzag" viewBox="0 0 180 70">
+      <polyline
+        points="0,70 22,0 45,70 67,0 90,70 112,0 135,70 157,0 180,70"
+        fill="none"
+        stroke="var(--green)"
+        stroke-width="3"
+        opacity="0.1"
+      />
+    </svg>
+
+    <div class="contact-blob" aria-hidden="true"></div>
   </div>
 
   <div class="contact-band-bottom" aria-hidden="true"></div>
@@ -105,7 +120,6 @@ const links = [
     bottom: 0;
     left: 0;
   }
-
   .contact-decor {
     position: absolute;
     inset: 0;
@@ -113,16 +127,65 @@ const links = [
     overflow: hidden;
   }
 
+  /* ── Interactive Shapes Hover ── */
+  .contact-circle,
+  .contact-squiggle,
+  .contact-zigzag,
+  .contact-blob,
+  .contact-dots {
+    cursor: pointer;
+    pointer-events: auto;
+    transition: scale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                filter 0.3s ease, 
+                opacity 0.3s ease;
+  }
+
+  .contact-circle:hover,
+  .contact-squiggle:hover,
+  .contact-zigzag:hover,
+  .contact-blob:hover {
+    scale: 1.18;
+    opacity: 0.45 !important;
+    filter: drop-shadow(8px 8px 0 rgba(0, 0, 0, 0.1)) saturate(1.3);
+  }
+
+  .contact-dots:hover {
+    scale: 1.08;
+    opacity: 0.3 !important;
+  }
   .contact-circle {
     position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+  }
+
+  .contact-circle--blue {
     width: 200px;
     height: 200px;
-    border-radius: 50%;
     background: var(--blue);
-    opacity: 0.06;
     top: 20%;
     right: -60px;
-    animation: float 15s ease-in-out infinite;
+    animation: float-complex 18s ease-in-out infinite, color-drift 14s linear infinite;
+  }
+
+  .contact-circle--red {
+    width: 140px;
+    height: 140px;
+    background: var(--red);
+    bottom: 15%;
+    left: -40px;
+    animation: float-complex 20s ease-in-out infinite reverse, color-drift 12s linear infinite reverse;
+    opacity: 0.08;
+  }
+
+  .contact-circle--yellow {
+    width: 90px;
+    height: 90px;
+    background: var(--yellow);
+    top: 50%;
+    left: 20%;
+    animation: float-complex 14s ease-in-out infinite, color-drift 10s linear infinite;
+    opacity: 0.08;
   }
 
   .contact-squiggle {
@@ -130,7 +193,63 @@ const links = [
     bottom: 100px;
     right: 10%;
     transform: rotate(-10deg);
-    animation: squiggle-drift 7s ease-in-out infinite alternate;
+    width: 120px;
+    animation: squiggle-drift 7s ease-in-out infinite alternate, color-drift 8s linear infinite;
+  }
+
+  .contact-dots {
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    top: 15%;
+    left: 55%;
+    background-image: radial-gradient(circle, var(--black) 2px, transparent 2px);
+    background-size: 18px 18px;
+    opacity: 0.05;
+    animation: float 12s ease-in-out infinite;
+  }
+
+  .contact-zigzag {
+    position: absolute;
+    width: 160px;
+    height: 70px;
+    top: 60%;
+    right: 5%;
+    animation: pulse-rotate 18s ease-in-out infinite;
+  }
+
+  .contact-blob {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    background: linear-gradient(135deg, var(--pink), var(--orange));
+    opacity: 0.05;
+    bottom: 5%;
+    right: 30%;
+    animation: morph-blob 15s ease-in-out infinite, float-complex 22s ease-in-out infinite, color-drift 12s linear infinite;
+    filter: blur(35px);
+  }
+
+  @keyframes morph-blob {
+    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+    50% { border-radius: 50% 60% 30% 60% / 40% 50% 50% 50%; }
+    75% { border-radius: 60% 30% 50% 50% / 30% 60% 40% 70%; }
+  }
+
+  @keyframes color-drift {
+    0% { filter: hue-rotate(0deg) saturate(1); }
+    25% { filter: hue-rotate(90deg) saturate(1.2); }
+    50% { filter: hue-rotate(180deg) saturate(1); }
+    75% { filter: hue-rotate(270deg) saturate(1.1); }
+    100% { filter: hue-rotate(360deg) saturate(1); }
+  }
+
+  @keyframes float-complex {
+    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    25% { transform: translate(40px, -50px) rotate(5deg) scale(1.08); }
+    50% { transform: translate(-20px, -90px) rotate(-3deg) scale(0.95); }
+    75% { transform: translate(-50px, -30px) rotate(4deg) scale(1.03); }
   }
 
   .section-label {

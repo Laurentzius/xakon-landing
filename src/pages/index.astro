@@ -79,7 +79,7 @@ import Contact from "../components/Contact.astro";
     });
 
     /* ── Hover effect on interactive elements ── */
-    var INTERACTIVE = 'a, button, [role="button"], .carousel-btn, .contact-link';
+    var INTERACTIVE = 'a, button, [role="button"], .carousel-btn, .contact-link, .hero-circle, .hero-squiggle, .hero-zigzag, .hero-blob, .hero-grid, .hero-dots, .projects-circle, .projects-squiggle, .projects-zigzag, .projects-blob, .projects-dots, .contact-circle, .contact-squiggle, .contact-zigzag, .contact-blob, .contact-dots';
 
     document.addEventListener("mouseover", function(e) {
       var t = e.target.closest(INTERACTIVE);
@@ -98,7 +98,7 @@ import Contact from "../components/Contact.astro";
 
   /* ── Magnetic Hover Effect ── */
   (function() {
-    var MAGNETIC = '.btn, .carousel-btn, .contact-link';
+    var MAGNETIC = '.btn, .carousel-btn, .contact-link, .card-link';
     var els = document.querySelectorAll(MAGNETIC);
 
     els.forEach(function(el) {
@@ -133,8 +133,20 @@ import Contact from "../components/Contact.astro";
       { sel: ".hero-decor .hero-dots", speed: -0.08 },
       { sel: ".hero-decor .hero-squiggle", speed: 0.18 },
       { sel: ".hero-decor .hero-zigzag", speed: -0.15 },
-      { sel: ".contact-decor .contact-circle", speed: -0.2 },
+      { sel: ".contact-decor .contact-circle--blue", speed: -0.2 },
+      { sel: ".contact-decor .contact-circle--red", speed: 0.15 },
+      { sel: ".contact-decor .contact-circle--yellow", speed: -0.12 },
       { sel: ".contact-decor .contact-squiggle", speed: 0.15 },
+      { sel: ".contact-decor .contact-dots", speed: -0.08 },
+      { sel: ".contact-decor .contact-zigzag", speed: 0.18 },
+      { sel: ".contact-decor .contact-blob", speed: -0.1 },
+      { sel: ".projects-decor .projects-circle--green", speed: 0.12 },
+      { sel: ".projects-decor .projects-circle--pink", speed: -0.18 },
+      { sel: ".projects-decor .projects-circle--orange", speed: 0.22 },
+      { sel: ".projects-decor .projects-blob", speed: -0.1 },
+      { sel: ".projects-decor .projects-dots", speed: 0.08 },
+      { sel: ".projects-decor .projects-squiggle", speed: -0.14 },
+      { sel: ".projects-decor .projects-zigzag", speed: 0.16 },
     ];
 
     const els = layers.map(l => {
