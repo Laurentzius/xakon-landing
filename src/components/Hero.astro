@@ -163,6 +163,7 @@ const subtitle = "web developer / ai-first engineer";
       // Start visually in-place using absolute dimensions converted to fixed
       decor.style.transition = 'none';
       decor.style.position = 'fixed';
+      decor.style.inset = 'auto'; // Disable CSS top, right, bottom, left conflicts
       decor.style.top = rect.top + 'px';
       decor.style.left = rect.left + 'px';
       decor.style.width = rect.width + 'px';
