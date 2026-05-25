@@ -137,6 +137,91 @@ const subtitle = "web developer / ai-first engineer";
       type();
     }, 400);
   })();
+  /* ── Click decor shape → expand to fullscreen ── */
+  (function() {
+    var decor = document.getElementById("hero-decor");
+    if (!decor) return;
+
+    var SHAPES = '.hero-circle, .hero-squiggle, .hero-zigzag, .hero-blob, .hero-grid, .hero-dots';
+    var savedRect = null;
+    var isFull = false;
+
+    decor.addEventListener('click', function(e) {
+      var shape = e.target.closest(SHAPES);
+      if (!shape) return;
+      if (isFull) collapse(); else expand();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && isFull) collapse();
+    });
+
+    function expand() {
+      var rect = decor.getBoundingClientRect();
+      savedRect = rect;
+
+      // Start visually in-place using absolute dimensions converted to fixed
+      decor.style.transition = 'none';
+      decor.style.position = 'fixed';
+      decor.style.top = rect.top + 'px';
+      decor.style.left = rect.left + 'px';
+      decor.style.width = rect.width + 'px';
+      decor.style.height = rect.height + 'px';
+      decor.style.overflow = 'visible';
+      decor.style.zIndex = '0'; // Keep behind text & buttons
+      decor.style.margin = '0';
+      decor.style.transform = 'none';
+      decor.style.borderRadius = '24px';
+
+      // Force reflow
+      decor.offsetHeight;
+
+      // Playful springy transition on physical boundaries (no squashing of shapes)
+      var spring = '0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1)';
+      decor.style.transition = 'top ' + spring + ', left ' + spring + ', width ' + spring + ', height ' + spring + ', border-radius 0.8s ease';
+      
+      decor.style.top = '0';
+      decor.style.left = '0';
+      decor.style.width = '100vw';
+      decor.style.height = '100vh';
+      decor.style.borderRadius = '0';
+
+      // Add hint
+      var hint = document.createElement('div');
+      hint.id = 'fullscreen-hint';
+      hint.textContent = 'esc \u2190 exit';
+      hint.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);font:700 0.65rem/1 Space\\ Grotesk,sans-serif;letter-spacing:0.12em;text-transform:uppercase;color:var(--black);opacity:0.3;pointer-events:none;z-index:9999;transition:opacity 0.3s';
+      document.body.appendChild(hint);
+
+      isFull = true;
+    }
+
+    function collapse() {
+      if (!savedRect) return;
+
+      var smooth = '0.7s cubic-bezier(0.16, 1, 0.3, 1)';
+      decor.style.transition = 'top ' + smooth + ', left ' + smooth + ', width ' + smooth + ', height ' + smooth + ', border-radius 0.7s ease';
+      
+      decor.style.top = savedRect.top + 'px';
+      decor.style.left = savedRect.left + 'px';
+      decor.style.width = savedRect.width + 'px';
+      decor.style.height = savedRect.height + 'px';
+      decor.style.borderRadius = '24px';
+
+      // Remove hint
+      var hint = document.getElementById('fullscreen-hint');
+      if (hint) hint.remove();
+
+      function onEnd() {
+        decor.removeEventListener('transitionend', onEnd);
+        decor.style.position = 'absolute';
+        decor.style.top = decor.style.left = decor.style.width = decor.style.height = decor.style.overflow = decor.style.zIndex = decor.style.margin = decor.style.transformOrigin = decor.style.transform = decor.style.borderRadius = decor.style.transition = '';
+      }
+      decor.addEventListener('transitionend', onEnd);
+      isFull = false;
+      savedRect = null;
+    }
+  })();
 </script>
   <!-- Bottom decoration band -->
   <div class="hero-band" aria-hidden="true"></div>
