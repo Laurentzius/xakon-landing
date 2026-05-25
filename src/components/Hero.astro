@@ -39,7 +39,7 @@ const subtitle = "web developer / ai-first engineer";
     </div>
 
     <div class="hero-content fade-in">
-      <div class="hero-badge">Index</div>
+      <div class="hero-badge"><span id="badge-word">thinking</span><span id="badge-dots">.</span></div>
       <h1 class="hero-title" id="theme-toggle-title">
         <span class="hero-title-line">{studioName}</span>
       </h1>
@@ -78,6 +78,26 @@ const subtitle = "web developer / ai-first engineer";
       setTheme(e.matches ? "dark" : "light");
     }
   });
+  /* ── Badge word rotator ── */
+  (function() {
+    var el = document.getElementById("badge-word");
+    var dots = document.getElementById("badge-dots");
+    if (!el || !dots) return;
+
+    var words = ["thinking", "generating", "working", "loading", "compiling"];
+    var wi = 0;
+    var di = 0;
+    var dotSeq = [".", "..", "..."];
+
+    setInterval(function() {
+      di = (di + 1) % dotSeq.length;
+      dots.textContent = dotSeq[di];
+      if (di === 0) {
+        wi = (wi + 1) % words.length;
+        el.textContent = words[wi];
+      }
+    }, 400);
+  })();
 </script>
   <!-- Bottom decoration band -->
   <div class="hero-band" aria-hidden="true"></div>
