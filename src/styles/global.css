@@ -170,6 +170,8 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   position: relative;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 /* ── Performance optimizations ── */
