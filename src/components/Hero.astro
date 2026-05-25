@@ -7,7 +7,7 @@ const subtitle = "web developer / ai-first engineer";
 <section class="hero">
   <div class="container">
     <!-- Decorative background elements -->
-    <div class="hero-decor" aria-hidden="true">
+    <div class="hero-decor" id="hero-decor" aria-hidden="true">
       <div class="hero-circle hero-circle--red"></div>
       <div class="hero-circle hero-circle--blue"></div>
       <div class="hero-circle hero-circle--yellow"></div>
@@ -38,13 +38,13 @@ const subtitle = "web developer / ai-first engineer";
       <div class="hero-blob" aria-hidden="true"></div>
     </div>
 
-    <div class="hero-content fade-in">
-      <div class="hero-badge"><span id="badge-text">thinking.</span></div>
+    <div class="hero-content">
+      <div class="hero-badge hero-reveal" id="hero-badge"><span id="badge-text">thinking.</span></div>
       <h1 class="hero-title" id="theme-toggle-title">
-        <span class="hero-title-line">{studioName}</span>
+        <span class="hero-title-line"><span class="typewriter-wrap" id="typewriter-wrap"><span id="typewriter-text"></span><span class="typewriter-cursor">|</span></span></span>
       </h1>
-      <p class="hero-subtitle">{subtitle}</p>
-      <div class="hero-actions">
+      <p class="hero-subtitle hero-reveal" id="hero-subtitle">{subtitle}</p>
+      <div class="hero-actions hero-reveal" id="hero-actions">
         <a href="#projects" class="btn btn--primary">Проекты</a>
         <a href="#contact" class="btn btn--outline">Связаться</a>
       </div>
@@ -106,6 +106,37 @@ const subtitle = "web developer / ai-first engineer";
       el.textContent = words[wi] + dotSeq[di];
     }, 400);
   })();
+  /* ── Typewriter + staggered reveal ── */
+  (function() {
+    var el = document.getElementById("typewriter-text");
+    var badge = document.getElementById("hero-badge");
+    var sub = document.getElementById("hero-subtitle");
+    var actions = document.getElementById("hero-actions");
+    var decor = document.getElementById("hero-decor");
+    if (!el) return;
+
+    var text = "XAKON.DEV";
+    var i = 0;
+    var speed = 90;
+
+    function type() {
+      if (i < text.length) {
+        el.textContent += text.charAt(i);
+        i++;
+        setTimeout(type, speed);
+      } else {
+        setTimeout(function() { if (badge) badge.classList.add("visible"); }, 150);
+        setTimeout(function() { if (sub) sub.classList.add("visible"); }, 450);
+        setTimeout(function() { if (actions) actions.classList.add("visible"); }, 750);
+        setTimeout(function() { if (decor) decor.classList.add("revealed"); }, 1050);
+      }
+    }
+    setTimeout(function() {
+      var wrap = document.getElementById("typewriter-wrap");
+      if (wrap) wrap.classList.add("visible");
+      type();
+    }, 400);
+  })();
 </script>
   <!-- Bottom decoration band -->
   <div class="hero-band" aria-hidden="true"></div>
@@ -136,12 +167,6 @@ const subtitle = "web developer / ai-first engineer";
     75% { transform: translate(-50px, -30px) rotate(4deg) scale(1.03); }
   }
 
-  @keyframes title-reveal {
-    0% { letter-spacing: -0.15em; opacity: 0; }
-    40% { opacity: 0.4; }
-    100% { letter-spacing: -0.03em; opacity: 1; }
-  }
-
   @keyframes badge-shimmer {
     0% { background-position: 100% 0; }
     100% { background-position: 0% 0; }
@@ -161,8 +186,13 @@ const subtitle = "web developer / ai-first engineer";
     pointer-events: none;
     overflow: hidden;
     transform: scale(1.4);
-
     border-radius: 24px;
+    opacity: 0;
+    transition: opacity 1s ease-out;
+  }
+  
+  .hero-decor.revealed {
+    opacity: 1;
   }
 
   .hero-circle {
@@ -257,6 +287,38 @@ const subtitle = "web developer / ai-first engineer";
     z-index: 1;
     max-width: 800px;
   }
+  
+  .hero-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .hero-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .typewriter-wrap {
+    opacity: 0;
+  }
+  
+  .typewriter-wrap.visible {
+    opacity: 1;
+  }
+  
+  .typewriter-cursor {
+    display: inline-block;
+    animation: typewriter-blink 0.8s step-end infinite;
+    color: var(--black);
+    font-weight: 700;
+    margin-left: 2px;
+  }
+  
+  @keyframes typewriter-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  
 
   .hero-badge {
     display: inline-block;
@@ -297,7 +359,6 @@ const subtitle = "web developer / ai-first engineer";
     margin-bottom: 16px;
     cursor: pointer;
     user-select: none;
-    animation: title-reveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   .hero-title-line {
