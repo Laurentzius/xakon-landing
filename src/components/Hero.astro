@@ -87,12 +87,16 @@ const subtitle = "web developer / ai-first engineer";
     var words = ["thinking", "generating", "working", "loading", "compiling"];
     var wi = 0;
     var di = 0;
+    var tick = 0;
     var dotSeq = [".", "..", "..."];
+    var CYCLES = 20;
 
     setInterval(function() {
       di = (di + 1) % dotSeq.length;
       dots.textContent = dotSeq[di];
-      if (di === 0) {
+      tick++;
+      if (tick >= CYCLES) {
+        tick = 0;
         wi = (wi + 1) % words.length;
         el.textContent = words[wi];
       }
