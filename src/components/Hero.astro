@@ -39,7 +39,7 @@ const subtitle = "web developer / ai-first engineer";
     </div>
 
     <div class="hero-content fade-in">
-      <div class="hero-badge"><span id="badge-word">thinking</span><span id="badge-dots">.</span></div>
+      <div class="hero-badge"><span id="badge-text">thinking.</span></div>
       <h1 class="hero-title" id="theme-toggle-title">
         <span class="hero-title-line">{studioName}</span>
       </h1>
@@ -80,26 +80,30 @@ const subtitle = "web developer / ai-first engineer";
   });
   /* ── Badge word rotator ── */
   (function() {
-    var el = document.getElementById("badge-word");
-    var dots = document.getElementById("badge-dots");
-    if (!el || !dots) return;
+    var el = document.getElementById("badge-text");
+    if (!el) return;
 
     var words = ["thinking", "generating", "working", "loading", "compiling"];
     var wi = 0;
     var di = 0;
-    var tick = 0;
     var dotSeq = [".", "..", "..."];
+    var tick = 0;
     var CYCLES = 20;
+
+    function render() {
+      el.textContent = words[wi] + dotSeq[di];
+    }
+
+    render();
 
     setInterval(function() {
       di = (di + 1) % dotSeq.length;
-      dots.textContent = dotSeq[di];
       tick++;
       if (tick >= CYCLES) {
         tick = 0;
         wi = (wi + 1) % words.length;
-        el.textContent = words[wi];
       }
+      el.textContent = words[wi] + dotSeq[di];
     }, 400);
   })();
 </script>
@@ -266,7 +270,7 @@ const subtitle = "web developer / ai-first engineer";
     padding: 6px 16px;
     margin-bottom: 24px;
   }
-  #badge-word, #badge-dots {
+  #badge-text {
     background: linear-gradient(
       90deg,
       var(--white) 0%,
