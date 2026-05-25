@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Hero from "../components/Hero.astro";
 import Projects from "../components/Projects.astro";
 import Contact from "../components/Contact.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
 ---
 
 <!DOCTYPE html>
@@ -13,11 +14,19 @@ import Contact from "../components/Contact.astro";
     <meta name="description" content="Xakon — студия веб-разработки. Портфолио проектов." />
     <title>Xakon — Web Development Studio</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script>
+      (function(){
+        var t=localStorage.getItem("theme");
+        if(!t) t=window.matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light";
+        document.documentElement.setAttribute("data-theme",t);
+      })();
+    </script>
   </head>
   <body>
     <Hero />
     <Projects />
     <Contact />
+    <ThemeToggle />
 
     <footer class="footer">
       <div class="container">

@@ -20,6 +20,155 @@
   --grid-size: 60px;
 }
 
+/* ── Dark Theme ── */
+
+html {
+  color-scheme: light dark;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body {
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+[data-theme="dark"] {
+  --black: #f0ece3;
+  --white: #16161a;
+  --card-bg: #1e1e24;
+  --pattern-opacity: 0.15;
+}
+
+[data-theme="light"] {
+  --card-bg: var(--white);
+  --pattern-opacity: 0.08;
+}
+
+/* Default light */
+:root {
+  --card-bg: var(--white);
+  --pattern-opacity: 0.08;
+}
+
+/* ── Theme Toggle ── */
+
+.theme-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--black);
+  background: var(--white);
+  color: var(--black);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 1.2rem;
+}
+
+.theme-toggle:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 6px 6px 0 var(--yellow);
+}
+
+/* ── Dark theme overrides for patterns ── */
+
+[data-theme="dark"] .dot-pattern::before,
+[data-theme="dark"] .hero-dots {
+  opacity: var(--pattern-opacity) !important;
+}
+
+[data-theme="dark"] .grid-pattern::before,
+[data-theme="dark"] .hero-grid {
+  opacity: calc(var(--pattern-opacity) - 0.05) !important;
+}
+
+[data-theme="dark"] .hero-squiggle path,
+[data-theme="dark"] .hero-zigzag polyline,
+[data-theme="dark"] .contact-squiggle path {
+  opacity: 0.2 !important;
+}
+
+[data-theme="dark"] .card-dot-grid {
+  opacity: calc(var(--pattern-opacity) + 0.05) !important;
+}
+
+/* ── Dark theme section backgrounds ── */
+
+[data-theme="dark"] section.hero,
+[data-theme="dark"] section.projects,
+[data-theme="dark"] section.contact {
+  background: var(--white) !important;
+}
+
+[data-theme="dark"] .project-card {
+  background: var(--card-bg) !important;
+  border-color: var(--black) !important;
+}
+
+[data-theme="dark"] .project-card:hover {
+  box-shadow: 10px 10px 0 var(--black) !important;
+}
+
+[data-theme="dark"] .carousel-btn {
+  background: var(--card-bg) !important;
+  border-color: var(--black) !important;
+  color: var(--black) !important;
+}
+
+[data-theme="dark"] .carousel-btn:hover {
+  background: var(--black) !important;
+  color: var(--white) !important;
+}
+
+[data-theme="dark"] .btn--primary {
+  background: var(--black) !important;
+  color: var(--white) !important;
+}
+
+[data-theme="dark"] .btn--primary:hover {
+  background: transparent !important;
+  color: var(--black) !important;
+}
+
+[data-theme="dark"] .btn--outline {
+  background: transparent !important;
+  color: var(--black) !important;
+}
+
+[data-theme="dark"] .btn--outline:hover {
+  background: var(--black) !important;
+  color: var(--white) !important;
+}
+
+[data-theme="dark"] .contact-link:hover {
+  background: var(--card-bg) !important;
+  border-color: var(--black) !important;
+}
+
+[data-theme="dark"] .footer {
+  background: var(--black) !important;
+  color: var(--white) !important;
+}
+
+[data-theme="dark"] .hero-badge {
+  background: var(--black) !important;
+  color: var(--white) !important;
+}
+
+[data-theme="dark"] .hero-dots {
+  background-image: radial-gradient(circle, var(--black) 2px, transparent 2px) !important;
+}
+
+[data-theme="dark"] .hero-grid {
+  background-image:
+    linear-gradient(var(--black) 1px, transparent 1px),
+    linear-gradient(90deg, var(--black) 1px, transparent 1px) !important;
+}
+
 *,
 *::before,
 *::after {
