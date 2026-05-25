@@ -137,6 +137,11 @@ const subtitle = "web developer / ai-first engineer";
     40% { opacity: 0.4; }
     100% { letter-spacing: -0.03em; opacity: 1; }
   }
+
+  @keyframes badge-shimmer {
+    0% { background-position: 0% 0; }
+    100% { background-position: 200% 0; }
+  }
   .hero {
     min-height: 100dvh;
     display: flex;
@@ -260,6 +265,19 @@ const subtitle = "web developer / ai-first engineer";
     background: var(--black);
     padding: 6px 16px;
     margin-bottom: 24px;
+  }
+  #badge-word, #badge-dots {
+    background: linear-gradient(
+      90deg,
+      var(--yellow) 0%,
+      var(--pink) 50%,
+      var(--blue) 100%
+    );
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: badge-shimmer 2.5s linear infinite;
   }
 
   .hero-title {
