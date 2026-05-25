@@ -97,7 +97,20 @@ import projects from "../data/projects.json";
   document.addEventListener("pointermove", (e) => {
     if (!isDown) return;
     const dx = e.pageX - startX;
-    carousel.scrollLeft = scrollStart - dx;
+    const cardWidth = getCardWidth();
+    const maxScroll = cardWidth * total;
+
+    let newPos = scrollStart - dx;
+
+    if (newPos >= maxScroll) {
+      scrollStart -= maxScroll;
+      newPos -= maxScroll;
+    } else if (newPos < 0) {
+      scrollStart += maxScroll;
+      newPos += maxScroll;
+    }
+
+    carousel.scrollLeft = newPos;
   });
 
   document.addEventListener("pointerup", () => {
