@@ -96,6 +96,30 @@ import Contact from "../components/Contact.astro";
     });
   })();
 
+  /* ── Magnetic Hover Effect ── */
+  (function() {
+    var MAGNETIC = '.btn, .carousel-btn, .contact-link';
+    var els = document.querySelectorAll(MAGNETIC);
+
+    els.forEach(function(el) {
+      el.addEventListener('mousemove', function(e) {
+        var rect = el.getBoundingClientRect();
+        var x = e.clientX - rect.left - rect.width / 2;
+        var y = e.clientY - rect.top - rect.height / 2;
+
+        // Pull strength - 25% of the distance
+        var strength = 0.25;
+        el.style.transform = 'translate(' + (x * strength) + 'px, ' + (y * strength) + 'px)';
+        el.style.transition = 'transform 0.1s ease-out';
+      });
+
+      el.addEventListener('mouseleave', function() {
+        el.style.transform = 'translate(0px, 0px)';
+        el.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; // elastic spring back
+      });
+    });
+  })();
+
   /* ── Parallax scroll ── */
   (function() {
     const layers = [
@@ -216,37 +240,36 @@ import Contact from "../components/Contact.astro";
     top: 0;
     transform: translate(-50%, -50%);
     transition: opacity 0.3s ease;
+    mix-blend-mode: difference;
+    z-index: 999999;
   }
 
   .cursor-dot {
     width: 6px;
     height: 6px;
-    background: var(--black);
-    z-index: 10000;
+    background: #ffffff;
     transition: opacity 0.3s ease, width 0.3s ease, height 0.3s ease;
-    /* mix-blend-mode removed — --black auto-adapts between themes */
     opacity: 0;
   }
 
   .cursor-dot--hover {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
 
   .cursor-ring {
     width: 34px;
     height: 34px;
-    border: 1.5px solid var(--black);
-    z-index: 9999;
+    border: 1.5px solid #ffffff;
     transition: opacity 0.3s ease, width 0.4s ease, height 0.4s ease, border-color 0.3s ease, background 0.3s ease;
-    /* mix-blend-mode removed — --black auto-adapts between themes */
     opacity: 0;
   }
 
   .cursor-ring--hover {
-    width: 54px;
-    height: 54px;
-    background: rgba(255, 190, 11, 0.1);
+    width: 50px;
+    height: 50px;
+    background: #ffffff;
+    border-color: transparent;
   }
 
   /* Hide default cursor — only custom cursor visible */
