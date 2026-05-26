@@ -14,12 +14,15 @@ import projects from "../data/projects.json";
   </div>
 
   <div class="accordion-wrapper fade-in fade-in-delay-1">
-    <div class="projects-accordion" id="projects-accordion">
+    <div class="projects-accordion has-active" id="projects-accordion">
       {projects.map((project, i) => {
         const accentColors = ["var(--red)", "var(--blue)", "var(--yellow)", "var(--green)", "var(--pink)", "var(--orange)"];
         const accentColor = accentColors[i % accentColors.length];
         return (
           <div class="project-column" style={`--accent: ${accentColor}`} data-index={i}>
+            <!-- Dimmed Background Image Layer -->
+            <div class="column-bg" style={`background-image: url(${project.image})`}></div>
+
             <!-- Collapsed Content -->
             <div class="column-collapsed-content">
               <span class="collapsed-num">{String(i + 1).padStart(2, '0')}</span>
@@ -87,26 +90,43 @@ import projects from "../data/projects.json";
 </section>
 
 <script>
+  const accordion = document.getElementById("projects-accordion");
   const columns = document.querySelectorAll(".project-column");
-  if (columns.length > 0) {
-    // Optionally make the first item active by default on mobile
-    if (window.innerWidth <= 992) {
-      columns[0].classList.add("is-active");
-    }
+
+  if (accordion && columns.length > 0) {
+    // Set first item active by default
+    columns[0].classList.add("is-active");
 
     columns.forEach((column) => {
-      column.addEventListener("click", () => {
-        // Toggle active class on tap (primarily for mobile)
-        const isActive = column.classList.contains("is-active");
+      column.addEventListener("click", (e) => {
+        e.stopPropagation(); // prevent document click listener from closing
         
+        const isActive = column.classList.contains("is-active");
+
+        // Clear active state on all columns
         columns.forEach((c) => {
           c.classList.remove("is-active");
         });
 
         if (!isActive) {
           column.classList.add("is-active");
+          accordion.classList.add("has-active");
+        } else {
+          // If clicked the already active one, collapse it!
+          accordion.classList.remove("has-active");
         }
       });
+    });
+
+    // Collapse when clicking anywhere else on the page
+    document.addEventListener("click", (e) => {
+      const isColumn = e.target.closest(".project-column");
+      if (!isColumn) {
+        columns.forEach((c) => {
+          c.classList.remove("is-active");
+        });
+        accordion.classList.remove("has-active");
+      }
     });
   }
 </script>
@@ -206,48 +226,71 @@ import projects from "../data/projects.json";
                 background-color 0.3s ease;
   }
 
-  /* Hover and Active behavior for desktop */
-  @media (hover: hover) {
-    .projects-accordion:hover .project-column {
-      flex: 0.65;
-    }
-
-    .projects-accordion .project-column:hover {
-      flex: 4.5;
-      transform: translate(-6px, -6px);
-      box-shadow: 10px 10px 0 var(--accent);
-      border-color: var(--accent);
-    }
-
-    .projects-accordion .project-column:hover .column-collapsed-content {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .projects-accordion .project-column:hover .column-content {
-      opacity: 1;
-      pointer-events: auto;
-      transition: opacity 0.4s ease 0.18s;
-    }
-
-    .projects-accordion .project-column:hover .column-image {
-      transform: scale(1.05);
-    }
+  /* Dimmed Background Image Layer */
+  .column-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    transition: filter 0.4s ease, opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: grayscale(0.15) brightness(0.3);
+    opacity: 0.95;
   }
 
-  /* Touch / Fallback Active class */
-  .project-column.is-active {
+  /* Subtle dark gradient overlay to guarantee text readability in collapsed state */
+  .column-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7));
+    transition: opacity 0.4s ease;
+    opacity: 0.8;
+  }
+
+  /* Collapsed Hover: Light up the image, but do NOT expand yet */
+  .project-column:not(.is-active):hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 6px 6px 0 var(--accent);
+    border-color: var(--accent);
+  }
+
+  .project-column:not(.is-active):hover .column-bg {
+    filter: grayscale(0) brightness(0.8);
+    transform: scale(1.03);
+  }
+
+  .project-column:not(.is-active):hover .column-bg::after {
+    opacity: 0.35;
+  }
+
+  /* Accordion active logic (controlled via JS class) */
+  .projects-accordion.has-active .project-column {
+    flex: 0.65;
+  }
+
+  .projects-accordion.has-active .project-column.is-active {
     flex: 4.5;
     transform: translate(-6px, -6px);
     box-shadow: 10px 10px 0 var(--accent);
     border-color: var(--accent);
+    background: var(--white);
+    cursor: default;
   }
 
+  /* When active, fade out the background image layer to let the white readable background work */
+  .project-column.is-active .column-bg {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Fade out collapsed components on active */
   .project-column.is-active .column-collapsed-content {
     opacity: 0;
     pointer-events: none;
   }
 
+  /* Fade in expanded components on active */
   .project-column.is-active .column-content {
     opacity: 1;
     pointer-events: auto;
@@ -279,8 +322,9 @@ import projects from "../data/projects.json";
     font-family: var(--font-body);
     font-weight: 700;
     font-size: 1.1rem;
-    color: var(--black);
-    opacity: 0.5;
+    color: #ffffff;
+    opacity: 0.85;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   }
 
   .collapsed-title {
@@ -289,7 +333,8 @@ import projects from "../data/projects.json";
     transform: rotate(180deg);
     font-family: var(--font-display);
     font-size: 1.4rem;
-    color: var(--black);
+    color: #ffffff !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     text-transform: uppercase;
     white-space: nowrap;
     letter-spacing: -0.01em;
@@ -300,9 +345,9 @@ import projects from "../data/projects.json";
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    border: 2px solid var(--black);
+    border: 2px solid #ffffff;
     background: var(--accent);
-    transition: transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
 
   /* ── Expanded Content ── */
@@ -315,7 +360,7 @@ import projects from "../data/projects.json";
     align-items: center;
     gap: 32px;
     padding: 40px;
-    min-width: 520px; /* locks layout structure from squeezing during transition */
+    min-width: 520px;
     box-sizing: border-box;
     opacity: 0;
     pointer-events: none;
@@ -390,7 +435,7 @@ import projects from "../data/projects.json";
     transition: all 0.2s;
   }
 
-  .project-column:hover .tag {
+  .project-column.is-active .tag {
     border-color: var(--accent);
     color: var(--accent);
   }
@@ -436,12 +481,27 @@ import projects from "../data/projects.json";
       flex: 1;
     }
 
-    .projects-accordion:hover .project-column {
+    /* Dimmed overlays on mobile hover (if exists) */
+    .project-column:not(.is-active):hover {
+      transform: none;
+      box-shadow: none;
+      border-color: var(--black);
+    }
+    
+    .project-column:not(.is-active):hover .column-bg {
+      filter: grayscale(0.15) brightness(0.3);
+      transform: none;
+    }
+
+    .project-column:not(.is-active):hover .column-bg::after {
+      opacity: 0.8;
+    }
+
+    .projects-accordion.has-active .project-column {
       flex: 0.7;
     }
 
-    .projects-accordion .project-column:hover,
-    .project-column.is-active {
+    .projects-accordion.has-active .project-column.is-active {
       flex: 6.5;
     }
 
