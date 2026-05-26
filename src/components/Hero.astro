@@ -8,11 +8,11 @@ const subtitle = "web developer / ai-first engineer";
   <div class="container">
     <!-- Decorative background elements -->
     <div class="hero-decor" id="hero-decor" aria-hidden="true">
-      <div class="hero-circle hero-circle--red"></div>
-      <div class="hero-circle hero-circle--blue"></div>
-      <div class="hero-circle hero-circle--yellow"></div>
+      <div class="hero-circle hero-circle--red" data-decor></div>
+      <div class="hero-circle hero-circle--blue" data-decor></div>
+      <div class="hero-circle hero-circle--yellow" data-decor></div>
 
-      <svg class="hero-squiggle" viewBox="0 0 300 50">
+      <svg class="hero-squiggle" data-decor viewBox="0 0 300 50">
         <path
           d="M0 25 Q30 0 60 25 T120 25 T180 25 T240 25 T300 25"
           fill="none"
@@ -22,9 +22,9 @@ const subtitle = "web developer / ai-first engineer";
         />
       </svg>
 
-      <div class="hero-grid"></div>
+      <div class="hero-grid" data-decor></div>
 
-      <svg class="hero-zigzag" viewBox="0 0 200 80">
+      <svg class="hero-zigzag" data-decor viewBox="0 0 200 80">
         <polyline
           points="0,80 25,0 50,80 75,0 100,80 125,0 150,80 175,0 200,80"
           fill="none"
@@ -34,8 +34,8 @@ const subtitle = "web developer / ai-first engineer";
         />
       </svg>
 
-      <div class="hero-dots"></div>
-      <div class="hero-blob" aria-hidden="true"></div>
+      <div class="hero-dots" data-decor></div>
+      <div class="hero-blob" data-decor aria-hidden="true"></div>
     </div>
 
     <div class="hero-content">
@@ -332,16 +332,22 @@ const subtitle = "web developer / ai-first engineer";
   }
 
   .hero-circle:hover,
+  .hero-circle.decor-active,
   .hero-squiggle:hover,
+  .hero-squiggle.decor-active,
   .hero-zigzag:hover,
-  .hero-blob:hover {
+  .hero-zigzag.decor-active,
+  .hero-blob:hover,
+  .hero-blob.decor-active {
     scale: 1.18;
     opacity: 0.45 !important;
     filter: drop-shadow(8px 8px 0 rgba(0, 0, 0, 0.1)) saturate(1.3);
   }
 
   .hero-grid:hover,
-  .hero-dots:hover {
+  .hero-grid.decor-active,
+  .hero-dots:hover,
+  .hero-dots.decor-active {
     scale: 1.08;
     opacity: 0.3 !important;
   }
