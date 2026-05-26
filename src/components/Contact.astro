@@ -271,7 +271,7 @@ const links = [
     bottom: 5%;
     right: 30%;
     animation: morph-blob 15s ease-in-out infinite, float-complex 22s ease-in-out infinite, color-drift-blob 10s linear infinite;
-    filter: blur(15px);
+    filter: blur(1.5px);
     transition: scale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
                 filter 0.3s ease, 
                 opacity 0.3s ease;
@@ -282,7 +282,7 @@ const links = [
     animation-play-state: paused;
     scale: 1.15;
     opacity: 0.25 !important;
-    filter: blur(15px) saturate(1.6) contrast(1.1);
+    filter: blur(1.5px) saturate(1.6) contrast(1.1);
   }
 
   @keyframes morph-blob {
@@ -440,11 +440,11 @@ const links = [
   }
 
   @keyframes color-drift-blob {
-    0% { filter: blur(15px) hue-rotate(0deg) saturate(1); }
-    25% { filter: blur(15px) hue-rotate(90deg) saturate(1.2); }
-    50% { filter: blur(15px) hue-rotate(180deg) saturate(1); }
-    75% { filter: blur(15px) hue-rotate(270deg) saturate(1.1); }
-    100% { filter: blur(15px) hue-rotate(360deg) saturate(1); }
+    0% { filter: blur(1.5px) hue-rotate(0deg) saturate(1); }
+    25% { filter: blur(1.5px) hue-rotate(90deg) saturate(1.2); }
+    50% { filter: blur(1.5px) hue-rotate(180deg) saturate(1); }
+    75% { filter: blur(1.5px) hue-rotate(270deg) saturate(1.1); }
+    100% { filter: blur(1.5px) hue-rotate(360deg) saturate(1); }
   }
 
   @keyframes color-drift-squiggle {

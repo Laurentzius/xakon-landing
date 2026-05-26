@@ -728,7 +728,7 @@ import projects from "../data/projects.json";
     top: 50%;
     left: -5%;
     animation: morph-blob 16s ease-in-out infinite, float-complex 20s ease-in-out infinite, color-drift-blob 10s linear infinite;
-    filter: blur(15px);
+    filter: blur(1.5px);
     transition: scale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
                 filter 0.3s ease, 
                 opacity 0.3s ease;
@@ -739,7 +739,7 @@ import projects from "../data/projects.json";
     animation-play-state: paused;
     scale: 1.15;
     opacity: 0.25 !important;
-    filter: blur(15px) saturate(1.5) contrast(1.1);
+    filter: blur(1.5px) saturate(1.5) contrast(1.1);
   }
 
   @keyframes morph-blob {
@@ -780,11 +780,11 @@ import projects from "../data/projects.json";
   }
 
   @keyframes color-drift-blob {
-    0% { filter: blur(15px) hue-rotate(0deg) saturate(1); }
-    25% { filter: blur(15px) hue-rotate(90deg) saturate(1.2); }
-    50% { filter: blur(15px) hue-rotate(180deg) saturate(1); }
-    75% { filter: blur(15px) hue-rotate(270deg) saturate(1.1); }
-    100% { filter: blur(15px) hue-rotate(360deg) saturate(1); }
+    0% { filter: blur(1.5px) hue-rotate(0deg) saturate(1); }
+    25% { filter: blur(1.5px) hue-rotate(90deg) saturate(1.2); }
+    50% { filter: blur(1.5px) hue-rotate(180deg) saturate(1); }
+    75% { filter: blur(1.5px) hue-rotate(270deg) saturate(1.1); }
+    100% { filter: blur(1.5px) hue-rotate(360deg) saturate(1); }
   }
 
   @keyframes color-drift-squiggle {
