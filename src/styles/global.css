@@ -81,6 +81,12 @@ body {
 [data-theme="dark"] section.contact {
   background: var(--white) !important;
 }
+[data-theme="dark"] .column-bg {
+  filter: grayscale(0.15) brightness(0.3) !important;
+}
+[data-theme="dark"] .column-bg::after {
+  opacity: 0.8 !important;
+}
 
 [data-theme="dark"] .project-card {
   background: var(--card-bg) !important;
