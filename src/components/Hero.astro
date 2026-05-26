@@ -614,4 +614,102 @@ const subtitle = "web developer / ai-first engineer";
     background-size: 120px 12px;
     animation: hue-shift 4s steps(6) infinite;
   }
+
+  @media (max-width: 992px) {
+    .hero {
+      padding: 80px 0 60px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-decor {
+      display: block !important;
+      opacity: 0.8 !important;
+      inset: 0 !important;
+    }
+
+    .hero-decor * {
+      pointer-events: none !important;
+    }
+
+    .hero-circle--red {
+      width: 160px !important;
+      height: 160px !important;
+      top: -40px !important;
+      right: -30px !important;
+    }
+
+    .hero-circle--blue {
+      width: 110px !important;
+      height: 110px !important;
+      bottom: 8% !important;
+      left: -30px !important;
+    }
+
+    .hero-circle--yellow {
+      width: 60px !important;
+      height: 60px !important;
+      top: 25% !important;
+      left: 5% !important;
+    }
+
+    .hero-squiggle {
+      width: 100px !important;
+      height: 30px !important;
+      bottom: 15% !important;
+      right: 5% !important;
+    }
+
+    .hero-zigzag {
+      width: 90px !important;
+      height: 45px !important;
+      top: 15% !important;
+      left: 2% !important;
+    }
+
+    .hero-dots {
+      width: 120px !important;
+      height: 120px !important;
+      bottom: 25% !important;
+      right: 15% !important;
+    }
+
+    .hero-blob {
+      width: 160px !important;
+      height: 160px !important;
+      top: 55% !important;
+      left: 45% !important;
+      filter: blur(20px) !important;
+    }
+
+    .hero-grid {
+      width: 120px !important;
+      height: 120px !important;
+      right: 2% !important;
+      bottom: 8% !important;
+    }
+    
+    .hero {
+      padding: 60px 0;
+    }
+
+    .hero-subtitle {
+      margin-bottom: 30px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-actions {
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .btn {
+      width: 100% !important;
+      padding: 12px 24px;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+  }
 </style>

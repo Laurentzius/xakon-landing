@@ -434,4 +434,91 @@ const links = [
     75% { filter: hue-rotate(270deg) saturate(1.1); }
     100% { filter: hue-rotate(360deg) saturate(1); }
   }
+
+  @media (max-width: 992px) {
+    .contact {
+      min-height: auto !important;
+      padding: 80px 0 60px;
+    }
+    .contact-layout {
+      gap: 32px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .contact-decor {
+      display: block !important;
+      opacity: 0.75 !important;
+    }
+
+    .contact-decor * {
+      pointer-events: none !important;
+    }
+
+    .contact-circle--blue {
+      width: 110px !important;
+      height: 110px !important;
+      top: 15% !important;
+      right: -30px !important;
+    }
+
+    .contact-circle--red {
+      width: 80px !important;
+      height: 80px !important;
+      bottom: 10% !important;
+      left: -20px !important;
+    }
+
+    .contact-circle--yellow {
+      width: 50px !important;
+      height: 50px !important;
+      top: 40% !important;
+      left: 5% !important;
+    }
+
+    .contact-squiggle {
+      width: 80px !important;
+      height: 20px !important;
+      bottom: 15% !important;
+      right: 4% !important;
+    }
+
+    .contact-dots {
+      width: 100px !important;
+      height: 100px !important;
+      top: 12% !important;
+      left: 60% !important;
+    }
+
+    .contact-zigzag {
+      width: 90px !important;
+      height: 40px !important;
+      top: 55% !important;
+      right: 3% !important;
+    }
+
+    .contact-blob {
+      width: 140px !important;
+      height: 140px !important;
+      bottom: 5% !important;
+      right: 20% !important;
+      filter: blur(20px) !important;
+    }
+    
+    .contact {
+      padding: 60px 0 50px;
+    }
+    .contact-info {
+      text-align: left;
+    }
+
+    .contact-links {
+      width: 100%;
+    }
+
+    .contact-link {
+      width: 100%;
+      padding: 12px 16px;
+    }
+  }
 </style>

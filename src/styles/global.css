@@ -300,6 +300,15 @@ section {
   overflow: hidden;
 }
 
+@media (max-width: 992px) {
+  section {
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+    content-visibility: visible !important;
+    contain-intrinsic-size: auto !important;
+  }
+}
+
 /* ── Utility ── */
 
 .sr-only {

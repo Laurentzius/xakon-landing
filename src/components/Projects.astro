@@ -477,46 +477,46 @@ import projects from "../data/projects.json";
   /* ── Mobile Layout ── */
 
   @media (max-width: 992px) {
+    .projects {
+      min-height: auto !important;
+      padding: 60px 0 50px;
+    }
+
     .projects-accordion {
       flex-direction: column;
-      height: 600px;
-      gap: 12px;
+      height: auto !important; /* Dynamic height */
+      gap: 16px;
     }
 
     .project-column {
       width: 100%;
-      min-height: 50px;
-      flex: 1;
+      height: auto !important; /* Allow height to be controlled by active state */
+      min-height: auto !important;
+      flex: none !important; /* Disable flex scale */
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
     }
 
-    /* Dimmed overlays on mobile hover (if exists) */
-    .project-column:not(.is-active):hover {
-      transform: none;
-      box-shadow: none;
-      border-color: var(--black);
-    }
-    
-    .project-column:not(.is-active):hover .column-bg {
-      filter: grayscale(0.15) brightness(0.3);
-      transform: none;
-    }
-
-    .project-column:not(.is-active):hover .column-bg::after {
-      opacity: 0.8;
+    /* Inactive columns: standard height */
+    .project-column:not(.is-active) {
+      height: 70px !important;
     }
 
     .projects-accordion.has-active .project-column {
-      flex: 0.7;
+      flex: none !important;
     }
 
     .projects-accordion.has-active .project-column.is-active {
-      flex: 6.5;
+      flex: none !important;
+      transform: translate(-4px, -4px);
+      box-shadow: 8px 8px 0 var(--accent);
     }
 
     /* Collapsed mobile */
     .column-collapsed-content {
+      position: absolute !important;
+      inset: 0 !important;
       flex-direction: row !important;
-      padding: 12px 24px !important;
+      padding: 0 20px !important;
       align-items: center !important;
       justify-content: space-between !important;
     }
@@ -532,15 +532,30 @@ import projects from "../data/projects.json";
       font-size: 1rem !important;
     }
 
+    .project-column.is-active .column-collapsed-content {
+      display: none !important; /* Completely hide when active */
+    }
+
     /* Expanded mobile */
     .column-content {
-      flex-direction: column !important;
+      position: relative !important; /* Render in flow so parent height expands naturally! */
+      opacity: 0;
+      height: 0;
+      overflow: hidden;
+      display: none !important;
+      transition: opacity 0.3s ease;
       padding: 24px !important;
-      min-width: 100% !important;
       width: 100% !important;
-      gap: 16px !important;
-      justify-content: flex-start !important;
-      align-items: stretch !important;
+      min-width: 100% !important;
+      gap: 20px !important;
+      flex-direction: column !important;
+    }
+
+    .project-column.is-active .column-content {
+      display: flex !important;
+      opacity: 1 !important;
+      height: auto !important;
+      overflow: visible !important;
     }
 
     .column-info {
@@ -555,17 +570,79 @@ import projects from "../data/projects.json";
 
     .column-desc {
       font-size: 0.85rem !important;
-      margin-bottom: 12px !important;
+      margin-bottom: 16px !important;
       line-height: 1.5 !important;
     }
 
     .column-image-wrapper {
-      flex: 1 !important;
+      flex: none !important;
+      width: 100% !important;
       height: auto !important;
     }
 
     .column-image-box {
+      height: 180px !important; /* Set standard height on mobile */
+    }
+  }
+
+  @media (max-width: 768px) {
+    .projects-decor {
+      display: block !important;
+      opacity: 0.75 !important;
+    }
+
+    .projects-decor * {
+      pointer-events: none !important;
+    }
+
+    .projects-circle--green {
+      width: 120px !important;
+      height: 120px !important;
+      bottom: -30px !important;
+      left: -40px !important;
+    }
+
+    .projects-circle--pink {
+      width: 100px !important;
+      height: 100px !important;
+      top: -20px !important;
+      right: -30px !important;
+    }
+
+    .projects-circle--orange {
+      width: 50px !important;
+      height: 50px !important;
+      top: 30% !important;
+      left: 3% !important;
+    }
+
+    .projects-squiggle {
+      width: 90px !important;
+      height: 30px !important;
+      top: 15% !important;
+      right: 3% !important;
+    }
+
+    .projects-dots {
+      width: 110px !important;
+      height: 110px !important;
+      top: 60% !important;
+      left: 70% !important;
+    }
+
+    .projects-zigzag {
+      width: 80px !important;
+      height: 45px !important;
+      bottom: 20% !important;
+      right: 4% !important;
+    }
+
+    .projects-blob {
+      width: 150px !important;
       height: 150px !important;
+      bottom: 8% !important;
+      left: 15% !important;
+      filter: blur(20px) !important;
     }
   }
 
