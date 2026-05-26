@@ -525,6 +525,10 @@ import projects from "../data/projects.json";
       padding: 0 20px !important;
       align-items: center !important;
       justify-content: space-between !important;
+      opacity: 1 !important;
+      transition: opacity 0.3s ease !important;
+      pointer-events: auto !important;
+      display: flex !important;
     }
 
     .collapsed-title {
@@ -539,17 +543,17 @@ import projects from "../data/projects.json";
     }
 
     .project-column.is-active .column-collapsed-content {
-      display: none !important; /* Completely hide when active */
+      opacity: 0 !important;
+      pointer-events: none !important;
     }
 
     /* Expanded mobile */
     .column-content {
-      position: relative !important; /* Render in flow so parent height expands naturally! */
-      opacity: 0;
-      height: 0;
-      overflow: hidden;
-      display: none !important;
-      transition: opacity 0.3s ease;
+      position: relative !important; /* Render in flow so parent height expands naturally */
+      opacity: 0 !important;
+      pointer-events: none !important;
+      display: flex !important;
+      transition: opacity 0.3s ease !important;
       padding: 24px !important;
       width: 100% !important;
       min-width: 100% !important;
@@ -560,8 +564,8 @@ import projects from "../data/projects.json";
     .project-column.is-active .column-content {
       display: flex !important;
       opacity: 1 !important;
-      height: auto !important;
-      overflow: visible !important;
+      pointer-events: auto !important;
+      transition: opacity 0.4s ease 0.15s !important; /* Smooth delay on expand */
     }
 
     .column-info {
