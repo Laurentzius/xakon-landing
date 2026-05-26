@@ -646,7 +646,7 @@ import projects from "../data/projects.json";
     position: absolute;
     border-radius: 50%;
     opacity: 0.1;
-    filter: blur(8px);
+    filter: blur(3px);
     transition: scale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
                 filter 0.3s ease, 
                 opacity 0.3s ease;
@@ -656,7 +656,7 @@ import projects from "../data/projects.json";
   .projects-circle.decor-active {
     scale: 1.18;
     opacity: 0.45 !important;
-    filter: blur(8px) saturate(1.5) contrast(1.1);
+    filter: blur(3px) saturate(1.5) contrast(1.1);
   }
 
   .projects-circle--green {
@@ -665,7 +665,7 @@ import projects from "../data/projects.json";
     background: radial-gradient(circle at 30% 30%, var(--green) 0%, var(--blue) 70%, var(--purple) 100%);
     bottom: -60px;
     left: -80px;
-    animation: float-complex 18s ease-in-out infinite, color-drift 14s linear infinite;
+    animation: blob-float-rotate 18s ease-in-out infinite;
   }
 
   .projects-circle--pink {
@@ -674,7 +674,7 @@ import projects from "../data/projects.json";
     background: radial-gradient(circle at 30% 30%, var(--pink) 0%, var(--purple) 70%, var(--blue) 100%);
     top: -40px;
     right: -50px;
-    animation: float-complex 22s ease-in-out infinite reverse, color-drift 16s linear infinite reverse;
+    animation: blob-float-rotate 22s ease-in-out infinite reverse;
     opacity: 0.08;
   }
 
@@ -684,7 +684,7 @@ import projects from "../data/projects.json";
     background: radial-gradient(circle at 30% 30%, var(--orange) 0%, var(--red) 70%, var(--purple) 100%);
     top: 40%;
     left: 10%;
-    animation: float-complex 12s ease-in-out infinite, color-drift 10s linear infinite;
+    animation: blob-float-rotate 12s ease-in-out infinite;
     opacity: 0.08;
   }
 
