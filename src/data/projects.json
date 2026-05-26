@@ -3,42 +3,36 @@
     "title": "Bazeform",
     "description": "Студия веб-разработки. Сложные интерфейсы, архитектура и продуктовый дизайн.",
     "tags": ["React", "Next.js", "TypeScript", "Tailwind"],
-    "url": "",
     "image": "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=600&auto=format&fit=crop"
   },
   {
     "title": "AndartIT",
     "description": "IT-аутсорсинг и сервисная платформа. Автоматизация бизнес-процессов.",
     "tags": ["React", "Node.js", "PostgreSQL"],
-    "url": "",
     "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop"
   },
   {
     "title": "Provogatto",
     "description": "Сервис для организации мероприятий и коворкингов. Бронирование, расписание, билеты.",
     "tags": ["Next.js", "TypeScript", "Prisma"],
-    "url": "",
     "image": "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=600&auto=format&fit=crop"
   },
   {
     "title": "Prostorent",
     "description": "Платформа аренды коммерческой недвижимости. Поиск, сравнение, бронирование.",
     "tags": ["React", "Node.js", "MongoDB"],
-    "url": "",
     "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=600&auto=format&fit=crop"
   },
   {
     "title": "Uyrent",
     "description": "Сервис аренды жилья и управления недвижимостью. Личный кабинет арендатора.",
     "tags": ["React", "TypeScript", "Docker"],
-    "url": "",
     "image": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=600&auto=format&fit=crop"
   },
   {
     "title": "Blocx",
     "description": "Блокчейн-инструментарий и DeFi решения. Смарт-контракты и децентрализованные приложения.",
     "tags": ["Solidity", "Web3", "TypeScript"],
-    "url": "",
     "image": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=600&auto=format&fit=crop"
   }
 ]

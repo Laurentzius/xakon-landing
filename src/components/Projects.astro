@@ -27,7 +27,6 @@ import projects from "../data/projects.json";
             <div class="column-collapsed-content">
               <span class="collapsed-num">{String(i + 1).padStart(2, '0')}</span>
               <h3 class="collapsed-title">{project.title}</h3>
-              <div class="collapsed-indicator"></div>
             </div>
 
             <!-- Expanded Content -->
@@ -225,6 +224,10 @@ import projects from "../data/projects.json";
                 border-color 0.3s ease,
                 background-color 0.3s ease;
   }
+  
+  [data-theme="light"] .project-column {
+    border-color: var(--white);
+  }
 
   /* Dimmed Background Image Layer */
   .column-bg {
@@ -341,14 +344,6 @@ import projects from "../data/projects.json";
     margin: auto 0;
   }
 
-  .collapsed-indicator {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: 2px solid #ffffff;
-    background: var(--accent);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  }
 
   /* ── Expanded Content ── */
 
