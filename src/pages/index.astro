@@ -224,7 +224,60 @@ import Contact from "../components/Contact.astro";
   })();
   })();
 
+  /* ── Decor elements: click toggles hover state with proximity ripple ── */
+  (function() {
+    var decorEls = document.querySelectorAll("[data-decor]");
+    if (!decorEls.length) return;
 
+    var timeouts = [];
+
+    decorEls.forEach(function(clickedEl) {
+      clickedEl.addEventListener("click", function(e) {
+        e.stopPropagation();
+
+        var turningOn = !clickedEl.classList.contains("decor-active");
+        document.documentElement.toggleAttribute("data-decor-active", turningOn);
+
+        // Clear any running wave timeouts
+        timeouts.forEach(clearTimeout);
+        timeouts = [];
+
+        // Get center of the clicked element
+        var clickedRect = clickedEl.getBoundingClientRect();
+        var clickedX = clickedRect.left + clickedRect.width / 2;
+        var clickedY = clickedRect.top + clickedRect.height / 2;
+
+        // Calculate Euclidean distance for all elements
+        var targets = Array.from(decorEls).map(function(el) {
+          var rect = el.getBoundingClientRect();
+          var x = rect.left + rect.width / 2;
+          var y = rect.top + rect.height / 2;
+          var dx = x - clickedX;
+          var dy = y - clickedY;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          return { el: el, dist: dist };
+        });
+
+        // Sort by distance (ascending) to ripple outward from click point
+        targets.sort(function(a, b) {
+          return a.dist - b.dist;
+        });
+
+        // Speed: 0.3ms per pixel is the perfect balance for propagation
+        targets.forEach(function(item) {
+          var delay = item.dist * 0.3;
+          var t = setTimeout(function() {
+            if (turningOn) {
+              item.el.classList.add("decor-active");
+            } else {
+              item.el.classList.remove("decor-active");
+            }
+          }, delay);
+          timeouts.push(t);
+        });
+      });
+    });
+  })();
 </script>
 
 <style>
@@ -250,8 +303,7 @@ import Contact from "../components/Contact.astro";
     position: fixed;
     border-radius: 50%;
     pointer-events: none;
-    left: 0;
-    top: 0;
+    letter-spacing: 0.12em;
     transform: translate(-50%, -50%);
     transition: opacity 0.3s ease;
     mix-blend-mode: difference;
