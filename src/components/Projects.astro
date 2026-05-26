@@ -490,15 +490,20 @@ import projects from "../data/projects.json";
 
     .project-column {
       width: 100%;
-      height: auto !important; /* Allow height to be controlled by active state */
+      height: auto !important;
+      max-height: 70px !important; /* Set standard height in collapsed state */
       min-height: auto !important;
       flex: none !important; /* Disable flex scale */
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                  box-shadow 0.3s ease, 
+                  border-color 0.3s ease;
     }
 
     /* Inactive columns: standard height */
     .project-column:not(.is-active) {
-      height: 70px !important;
+      max-height: 70px !important;
     }
 
     .projects-accordion.has-active .project-column {
@@ -507,6 +512,7 @@ import projects from "../data/projects.json";
 
     .projects-accordion.has-active .project-column.is-active {
       flex: none !important;
+      max-height: 550px !important; /* Transition smoothly to expanded size */
       transform: translate(-4px, -4px);
       box-shadow: 8px 8px 0 var(--accent);
     }
