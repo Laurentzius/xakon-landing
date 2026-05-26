@@ -206,8 +206,8 @@ import Contact from "../components/Contact.astro";
     }
 
     window.addEventListener("wheel", function(e) {
-      var inCar = e.target.closest && e.target.closest("#projects-carousel");
-      if (inCar && Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      var inAcc = e.target.closest && e.target.closest("#projects-accordion");
+      if (inAcc && Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
       if (locked) { e.preventDefault(); return; }
       var dir = e.deltaY > 0 ? 1 : -1;
       var next = cur + dir;

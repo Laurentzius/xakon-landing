@@ -1,5 +1,4 @@
 ---
-import ProjectCard from "./ProjectCard.astro";
 import projects from "../data/projects.json";
 ---
 
@@ -14,33 +13,44 @@ import projects from "../data/projects.json";
     </div>
   </div>
 
-  <div class="carousel-wrapper fade-in fade-in-delay-1">
-    <div class="carousel" id="projects-carousel">
-      {(projects.concat(projects)).map((project, i) => (
-        <ProjectCard
-          title={project.title}
-          description={project.description}
-          tags={project.tags}
-          url={project.url}
-          index={i % projects.length}
-        />
-      ))}
-    </div>
+  <div class="accordion-wrapper fade-in fade-in-delay-1">
+    <div class="projects-accordion" id="projects-accordion">
+      {projects.map((project, i) => {
+        const accentColors = ["var(--red)", "var(--blue)", "var(--yellow)", "var(--green)", "var(--pink)", "var(--orange)"];
+        const accentColor = accentColors[i % accentColors.length];
+        return (
+          <div class="project-column" style={`--accent: ${accentColor}`} data-index={i}>
+            <!-- Collapsed Content -->
+            <div class="column-collapsed-content">
+              <span class="collapsed-num">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="collapsed-title">{project.title}</h3>
+              <div class="collapsed-indicator"></div>
+            </div>
 
-    <!-- Carousel controls -->
-    <div class="carousel-controls">
-      <button class="carousel-btn carousel-btn--prev" id="carousel-prev" aria-label="Предыдущий">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-          <path d="M14 17L7 10L14 3" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter"/>
-        </svg>
-      </button>
-      <button class="carousel-btn carousel-btn--next" id="carousel-next" aria-label="Следующий">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-          <path d="M6 3L13 10L6 17" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter"/>
-        </svg>
-      </button>
+            <!-- Expanded Content -->
+            <div class="column-content">
+              <div class="column-info">
+                <span class="column-num">/ {String(i + 1).padStart(2, '0')}</span>
+                <h3 class="column-title">{project.title}</h3>
+                <p class="column-desc">{project.description}</p>
+                <div class="column-tags">
+                  {project.tags.map(tag => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              </div>
+              <div class="column-image-wrapper">
+                <div class="column-image-box">
+                  <div class="column-image" style={`background-image: url(${project.image})`}></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   </div>
+
   <!-- Decorative animated elements -->
   <div class="projects-decor" aria-hidden="true">
     <div class="projects-circle projects-circle--green"></div>
@@ -77,113 +87,29 @@ import projects from "../data/projects.json";
 </section>
 
 <script>
-  const carousel = document.getElementById("projects-carousel");
-  const prevBtn = document.getElementById("carousel-prev");
-  const nextBtn = document.getElementById("carousel-next");
-
-  if (!carousel || !prevBtn || !nextBtn) throw new Error("Carousel elements not found");
-
-  const cards = carousel.querySelectorAll(".project-card");
-  const total = cards.length / 2;
-
-  let isDown = false;
-  let startX = 0;
-  let scrollStart = 0;
-
-  function getCardWidth() {
-    return cards[0].getBoundingClientRect().width + 24;
-  }
-
-  function jumpTo(pos) {
-    carousel.style.scrollBehavior = "auto";
-    carousel.scrollLeft = pos;
-    carousel.style.scrollBehavior = "";
-  }
-
-  function scroll(dir) {
-    const step = getCardWidth();
-    const maxScroll = step * total;
-
-    if (dir > 0 && carousel.scrollLeft >= maxScroll - step) {
-      jumpTo(0);
-      carousel.scrollBy({ left: step, behavior: "smooth" });
-    } else if (dir < 0 && carousel.scrollLeft < step) {
-      jumpTo(maxScroll);
-      carousel.scrollBy({ left: -step, behavior: "smooth" });
-    } else {
-      carousel.scrollBy({ left: dir * step, behavior: "smooth" });
-    }
-  }
-
-  /* ── Drag-to-scroll via Pointer Events ── */
-  carousel.addEventListener("pointerdown", (e) => {
-    isDown = true;
-    startX = e.pageX;
-    scrollStart = carousel.scrollLeft;
-    carousel.style.cursor = "grabbing";
-    carousel.style.scrollSnapType = "none";
-  });
-
-  document.addEventListener("pointermove", (e) => {
-    if (!isDown) return;
-    const dx = e.pageX - startX;
-    const cardWidth = getCardWidth();
-    const maxScroll = cardWidth * total;
-
-    let newPos = scrollStart - dx;
-
-    if (newPos >= maxScroll) {
-      scrollStart -= maxScroll;
-      newPos -= maxScroll;
-    } else if (newPos < 0) {
-      scrollStart += maxScroll;
-      newPos += maxScroll;
+  const columns = document.querySelectorAll(".project-column");
+  if (columns.length > 0) {
+    // Optionally make the first item active by default on mobile
+    if (window.innerWidth <= 992) {
+      columns[0].classList.add("is-active");
     }
 
-    carousel.scrollLeft = newPos;
-  });
+    columns.forEach((column) => {
+      column.addEventListener("click", () => {
+        // Toggle active class on tap (primarily for mobile)
+        const isActive = column.classList.contains("is-active");
+        
+        columns.forEach((c) => {
+          c.classList.remove("is-active");
+        });
 
-  document.addEventListener("pointerup", () => {
-    if (!isDown) return;
-    isDown = false;
-    carousel.style.cursor = "grab";
-    carousel.style.scrollBehavior = "smooth";
-    carousel.style.scrollSnapType = "";
-    setTimeout(() => {
-      carousel.style.scrollBehavior = "";
-    }, 350);
-  });
-
-  document.addEventListener("pointercancel", () => {
-    if (!isDown) return;
-    isDown = false;
-    carousel.style.cursor = "grab";
-    carousel.style.scrollBehavior = "smooth";
-    carousel.style.scrollSnapType = "";
-    setTimeout(() => {
-      carousel.style.scrollBehavior = "";
-    }, 350);
-  });
-
-
-
-  /* ── Buttons ── */
-  prevBtn.addEventListener("click", () => scroll(-1));
-  nextBtn.addEventListener("click", () => scroll(1));
-
-  /* ── Keyboard ── */
-  carousel.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") scroll(-1);
-    if (e.key === "ArrowRight") scroll(1);
-  });
-
-  /* ── Touch / wheel fine-tune ── */
-  carousel.addEventListener("wheel", (e) => {
-    if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) return;
-    e.preventDefault();
-  }, { passive: false });
+        if (!isActive) {
+          column.classList.add("is-active");
+        }
+      });
+    });
+  }
 </script>
-
 
 <style>
   .projects {
@@ -194,14 +120,14 @@ import projects from "../data/projects.json";
     padding: 80px 0;
     position: relative;
     background: var(--white);
+    overflow: hidden;
   }
 
   .section-header {
     margin-bottom: 40px;
     position: relative;
+    z-index: 1;
   }
-
-
 
   .section-label {
     font-size: 0.75rem;
@@ -243,70 +169,339 @@ import projects from "../data/projects.json";
     max-width: 480px;
   }
 
-  .carousel-wrapper {
-    position: relative;
-    padding: 0 24px;
-  }
+  /* ── Accordion ── */
 
-  .carousel {
-    display: flex;
-    gap: 24px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-x pinch-zoom;
-    padding: 16px 4px 24px;
-    scrollbar-width: none;
-    cursor: grab;
-    user-select: none;
-    -webkit-user-select: none;
-  }
-
-
-  .carousel::-webkit-scrollbar {
-    display: none;
-  }
-
-
-
-  .carousel-controls {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    margin-top: 24px;
+  .accordion-wrapper {
+    width: 100%;
     max-width: 1280px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
     padding: 0 24px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
   }
 
-  .carousel-btn {
-    width: 52px;
-    height: 52px;
+  .projects-accordion {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    height: 520px;
+    box-sizing: border-box;
+  }
+
+  .project-column {
+    flex: 1;
+    min-width: 80px;
+    height: 100%;
     border: 3px solid var(--black);
     background: var(--white);
-    color: var(--black);
+    position: relative;
+    overflow: hidden;
     cursor: pointer;
+    box-sizing: border-box;
+    transition: flex 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.3s ease,
+                border-color 0.3s ease,
+                background-color 0.3s ease;
+  }
+
+  /* Hover and Active behavior for desktop */
+  @media (hover: hover) {
+    .projects-accordion:hover .project-column {
+      flex: 0.65;
+    }
+
+    .projects-accordion .project-column:hover {
+      flex: 4.5;
+      transform: translate(-6px, -6px);
+      box-shadow: 10px 10px 0 var(--accent);
+      border-color: var(--accent);
+    }
+
+    .projects-accordion .project-column:hover .column-collapsed-content {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .projects-accordion .project-column:hover .column-content {
+      opacity: 1;
+      pointer-events: auto;
+      transition: opacity 0.4s ease 0.18s;
+    }
+
+    .projects-accordion .project-column:hover .column-image {
+      transform: scale(1.05);
+    }
+  }
+
+  /* Touch / Fallback Active class */
+  .project-column.is-active {
+    flex: 4.5;
+    transform: translate(-6px, -6px);
+    box-shadow: 10px 10px 0 var(--accent);
+    border-color: var(--accent);
+  }
+
+  .project-column.is-active .column-collapsed-content {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .project-column.is-active .column-content {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.4s ease 0.18s;
+  }
+
+  .project-column.is-active .column-image {
+    transform: scale(1.05);
+  }
+
+  /* ── Collapsed Content ── */
+
+  .column-collapsed-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32px 12px;
+    box-sizing: border-box;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+  }
+
+  .collapsed-num {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--black);
+    opacity: 0.5;
+  }
+
+  .collapsed-title {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--black);
+    text-transform: uppercase;
+    white-space: nowrap;
+    letter-spacing: -0.01em;
+    margin: auto 0;
+  }
+
+  .collapsed-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--black);
+    background: var(--accent);
+    transition: transform 0.3s ease;
+  }
+
+  /* ── Expanded Content ── */
+
+  .column-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 32px;
+    padding: 40px;
+    min-width: 520px; /* locks layout structure from squeezing during transition */
+    box-sizing: border-box;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 1;
+  }
+
+  .column-info {
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .column-num {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .column-title {
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: var(--black);
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+    position: relative;
+    width: fit-content;
+  }
+
+  .column-title::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--accent);
+    opacity: 0.3;
+  }
+
+  .column-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--black);
+    opacity: 0.8;
+    margin-bottom: 24px;
+  }
+
+  .column-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 2px solid var(--black);
+    background: transparent;
+    color: var(--black);
+    transition: all 0.2s;
+  }
+
+  .project-column:hover .tag {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .column-image-wrapper {
+    flex: 1;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-                background 0.3s ease,
-                color 0.3s ease,
-                box-shadow 0.3s ease;
   }
 
-  .carousel-btn:hover {
+  .column-image-box {
+    width: 100%;
+    height: 300px;
+    border: 3px solid var(--black);
+    box-shadow: 6px 6px 0 var(--black);
+    overflow: hidden;
+    position: relative;
     background: var(--black);
-    color: var(--white);
-    transform: translate(-2px, -2px);
-    box-shadow: 4px 4px 0 var(--red);
   }
 
-  .carousel-btn:active {
-    transform: translate(0, 0);
-    box-shadow: none;
+  .column-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
+
+  /* ── Mobile Layout ── */
+
+  @media (max-width: 992px) {
+    .projects-accordion {
+      flex-direction: column;
+      height: 600px;
+      gap: 12px;
+    }
+
+    .project-column {
+      width: 100%;
+      min-height: 50px;
+      flex: 1;
+    }
+
+    .projects-accordion:hover .project-column {
+      flex: 0.7;
+    }
+
+    .projects-accordion .project-column:hover,
+    .project-column.is-active {
+      flex: 6.5;
+    }
+
+    /* Collapsed mobile */
+    .column-collapsed-content {
+      flex-direction: row !important;
+      padding: 12px 24px !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+    }
+
+    .collapsed-title {
+      writing-mode: horizontal-tb !important;
+      transform: none !important;
+      margin: 0 !important;
+      font-size: 1.15rem !important;
+    }
+
+    .collapsed-num {
+      font-size: 1rem !important;
+    }
+
+    /* Expanded mobile */
+    .column-content {
+      flex-direction: column !important;
+      padding: 24px !important;
+      min-width: 100% !important;
+      width: 100% !important;
+      gap: 16px !important;
+      justify-content: flex-start !important;
+      align-items: stretch !important;
+    }
+
+    .column-info {
+      flex: none !important;
+      height: auto !important;
+    }
+
+    .column-title {
+      font-size: 1.6rem !important;
+      margin-bottom: 8px !important;
+    }
+
+    .column-desc {
+      font-size: 0.85rem !important;
+      margin-bottom: 12px !important;
+      line-height: 1.5 !important;
+    }
+
+    .column-image-wrapper {
+      flex: 1 !important;
+      height: auto !important;
+    }
+
+    .column-image-box {
+      height: 150px !important;
+    }
+  }
+
+  /* ── Decorative elements ── */
 
   .projects-band {
     position: absolute;
@@ -330,6 +525,7 @@ import projects from "../data/projects.json";
     background-size: 75px 8px;
     animation: hue-shift 3s steps(6) infinite;
   }
+
   /* ── Animated decorative elements ── */
 
   .projects-decor {
@@ -366,6 +562,7 @@ import projects from "../data/projects.json";
     scale: 1.08;
     opacity: 0.3 !important;
   }
+
   .projects-circle {
     position: absolute;
     border-radius: 50%;
