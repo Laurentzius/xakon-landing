@@ -604,7 +604,6 @@ import projects from "../data/projects.json";
                 opacity 0.3s ease;
   }
 
-  .projects-circle:hover,
   .projects-squiggle:hover,
   .projects-zigzag:hover {
     scale: 1.18;
@@ -618,7 +617,6 @@ import projects from "../data/projects.json";
   }
 
   /* ── Global toggle active state ── */
-  .projects-circle.decor-active,
   .projects-squiggle.decor-active,
   .projects-zigzag.decor-active {
     scale: 1.18;
@@ -635,12 +633,23 @@ import projects from "../data/projects.json";
     position: absolute;
     border-radius: 50%;
     opacity: 0.1;
+    filter: blur(8px);
+    transition: scale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                filter 0.3s ease, 
+                opacity 0.3s ease;
+  }
+
+  .projects-circle:hover,
+  .projects-circle.decor-active {
+    scale: 1.18;
+    opacity: 0.45 !important;
+    filter: blur(8px) saturate(1.5) contrast(1.1);
   }
 
   .projects-circle--green {
     width: 220px;
     height: 220px;
-    background: var(--green);
+    background: radial-gradient(circle at 30% 30%, var(--green) 0%, var(--blue) 70%, var(--purple) 100%);
     bottom: -60px;
     left: -80px;
     animation: float-complex 18s ease-in-out infinite, color-drift 14s linear infinite;
@@ -649,7 +658,7 @@ import projects from "../data/projects.json";
   .projects-circle--pink {
     width: 160px;
     height: 160px;
-    background: var(--pink);
+    background: radial-gradient(circle at 30% 30%, var(--pink) 0%, var(--purple) 70%, var(--blue) 100%);
     top: -40px;
     right: -50px;
     animation: float-complex 22s ease-in-out infinite reverse, color-drift 16s linear infinite reverse;
@@ -659,7 +668,7 @@ import projects from "../data/projects.json";
   .projects-circle--orange {
     width: 80px;
     height: 80px;
-    background: var(--orange);
+    background: radial-gradient(circle at 30% 30%, var(--orange) 0%, var(--red) 70%, var(--purple) 100%);
     top: 40%;
     left: 10%;
     animation: float-complex 12s ease-in-out infinite, color-drift 10s linear infinite;
@@ -705,7 +714,7 @@ import projects from "../data/projects.json";
     top: 50%;
     left: -5%;
     animation: morph-blob 16s ease-in-out infinite, blob-float-rotate 20s ease-in-out infinite;
-    filter: blur(20px);
+    filter: blur(8px);
     transition: scale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
                 filter 0.3s ease, 
                 opacity 0.3s ease;
@@ -715,7 +724,7 @@ import projects from "../data/projects.json";
   .projects-blob.decor-active {
     scale: 1.15;
     opacity: 0.25 !important;
-    filter: blur(20px) saturate(1.5) contrast(1.1);
+    filter: blur(8px) saturate(1.5) contrast(1.1);
   }
 
   @keyframes morph-blob {

@@ -140,7 +140,6 @@ const links = [
                 opacity 0.3s ease;
   }
 
-  .contact-circle:hover,
   .contact-squiggle:hover,
   .contact-zigzag:hover {
     scale: 1.18;
@@ -154,7 +153,6 @@ const links = [
   }
 
   /* ── Global toggle active state ── */
-  .contact-circle.decor-active,
   .contact-squiggle.decor-active,
   .contact-zigzag.decor-active {
     scale: 1.18;
@@ -171,12 +169,23 @@ const links = [
     position: absolute;
     border-radius: 50%;
     opacity: 0.1;
+    filter: blur(8px);
+    transition: scale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                filter 0.3s ease, 
+                opacity 0.3s ease;
+  }
+
+  .contact-circle:hover,
+  .contact-circle.decor-active {
+    scale: 1.18;
+    opacity: 0.45 !important;
+    filter: blur(8px) saturate(1.5) contrast(1.1);
   }
 
   .contact-circle--blue {
     width: 200px;
     height: 200px;
-    background: var(--blue);
+    background: radial-gradient(circle at 30% 30%, var(--blue) 0%, var(--purple) 70%, var(--pink) 100%);
     top: 20%;
     right: -60px;
     animation: float-complex 18s ease-in-out infinite, color-drift 14s linear infinite;
@@ -185,7 +194,7 @@ const links = [
   .contact-circle--red {
     width: 140px;
     height: 140px;
-    background: var(--red);
+    background: radial-gradient(circle at 30% 30%, var(--red) 0%, var(--pink) 70%, var(--orange) 100%);
     bottom: 15%;
     left: -40px;
     animation: float-complex 20s ease-in-out infinite reverse, color-drift 12s linear infinite reverse;
@@ -195,7 +204,7 @@ const links = [
   .contact-circle--yellow {
     width: 90px;
     height: 90px;
-    background: var(--yellow);
+    background: radial-gradient(circle at 30% 30%, var(--yellow) 0%, var(--orange) 70%, var(--red) 100%);
     top: 50%;
     left: 20%;
     animation: float-complex 14s ease-in-out infinite, color-drift 10s linear infinite;
@@ -241,7 +250,7 @@ const links = [
     bottom: 5%;
     right: 30%;
     animation: morph-blob 15s ease-in-out infinite, blob-float-rotate 22s ease-in-out infinite;
-    filter: blur(20px);
+    filter: blur(8px);
     transition: scale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
                 filter 0.3s ease, 
                 opacity 0.3s ease;
@@ -251,7 +260,7 @@ const links = [
   .contact-blob.decor-active {
     scale: 1.15;
     opacity: 0.25 !important;
-    filter: blur(20px) saturate(1.6) contrast(1.1);
+    filter: blur(8px) saturate(1.6) contrast(1.1);
   }
 
   @keyframes morph-blob {
