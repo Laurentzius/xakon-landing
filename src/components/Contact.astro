@@ -208,7 +208,7 @@ const links = [
     background: radial-gradient(circle at 30% 30%, var(--blue) 0%, var(--purple) 45%, var(--pink) 100%);
     top: 20%;
     right: -60px;
-    animation: blob-float-rotate 18s ease-in-out infinite;
+    animation: float-complex 18s ease-in-out infinite, color-drift 10s linear infinite;
   }
 
   .contact-circle--red {
@@ -217,7 +217,7 @@ const links = [
     background: radial-gradient(circle at 30% 30%, var(--red) 0%, var(--pink) 45%, var(--orange) 100%);
     bottom: 15%;
     left: -40px;
-    animation: blob-float-rotate 20s ease-in-out infinite reverse;
+    animation: float-complex 20s ease-in-out infinite reverse, color-drift 10s linear infinite reverse;
     opacity: 0.08;
   }
 
@@ -227,7 +227,7 @@ const links = [
     background: radial-gradient(circle at 30% 30%, var(--yellow) 0%, var(--orange) 45%, var(--red) 100%);
     top: 50%;
     left: 20%;
-    animation: blob-float-rotate 14s ease-in-out infinite;
+    animation: float-complex 14s ease-in-out infinite, color-drift 10s linear infinite;
     opacity: 0.08;
   }
 
@@ -265,11 +265,11 @@ const links = [
     position: absolute;
     width: 260px;
     height: 260px;
-    background: radial-gradient(circle at 70% 30%, var(--orange) 0%, var(--pink) 45%, var(--yellow) 100%);
+    background: linear-gradient(135deg, var(--pink), var(--yellow));
     opacity: 0.08;
     bottom: 5%;
     right: 30%;
-    animation: morph-blob 15s ease-in-out infinite, blob-float-rotate 22s ease-in-out infinite;
+    animation: morph-blob 15s ease-in-out infinite, float-complex 22s ease-in-out infinite, color-drift 10s linear infinite;
     filter: blur(1px);
     transition: scale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
                 filter 0.3s ease, 
