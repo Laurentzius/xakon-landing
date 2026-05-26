@@ -448,13 +448,19 @@ const links = [
   @media (max-width: 768px) {
     .contact-decor {
       display: block !important;
-      opacity: 0.75 !important;
+      opacity: 1 !important;
     }
+
+    .contact-decor * {
+      pointer-events: none !important; /* Lock clicks and touch states */
+    }
+
     .contact-circle--blue {
       width: 110px !important;
       height: 110px !important;
       top: 15% !important;
       right: -30px !important;
+      opacity: 0.35 !important;
     }
 
     .contact-circle--red {
@@ -462,6 +468,7 @@ const links = [
       height: 80px !important;
       bottom: 10% !important;
       left: -20px !important;
+      opacity: 0.35 !important;
     }
 
     .contact-circle--yellow {
@@ -469,6 +476,7 @@ const links = [
       height: 50px !important;
       top: 40% !important;
       left: 5% !important;
+      opacity: 0.35 !important;
     }
 
     .contact-squiggle {
@@ -476,6 +484,7 @@ const links = [
       height: 20px !important;
       bottom: 15% !important;
       right: 4% !important;
+      opacity: 0.40 !important;
     }
 
     .contact-dots {
@@ -483,6 +492,7 @@ const links = [
       height: 100px !important;
       top: 12% !important;
       left: 60% !important;
+      opacity: 0.18 !important;
     }
 
     .contact-zigzag {
@@ -490,6 +500,7 @@ const links = [
       height: 40px !important;
       top: 55% !important;
       right: 3% !important;
+      opacity: 0.40 !important;
     }
 
     .contact-blob {
@@ -498,6 +509,7 @@ const links = [
       bottom: 5% !important;
       right: 20% !important;
       filter: blur(20px) !important;
+      opacity: 0.18 !important;
     }
     
     .contact {

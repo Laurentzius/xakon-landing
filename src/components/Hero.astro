@@ -630,14 +630,20 @@ const subtitle = "web developer / ai-first engineer";
   @media (max-width: 768px) {
     .hero-decor {
       display: block !important;
-      opacity: 0.8 !important;
+      opacity: 1 !important;
       inset: 0 !important;
     }
+
+    .hero-decor * {
+      pointer-events: none !important; /* Lock clicks and touch states */
+    }
+
     .hero-circle--red {
       width: 160px !important;
       height: 160px !important;
       top: -40px !important;
       right: -30px !important;
+      opacity: 0.35 !important;
     }
 
     .hero-circle--blue {
@@ -645,6 +651,7 @@ const subtitle = "web developer / ai-first engineer";
       height: 110px !important;
       bottom: 8% !important;
       left: -30px !important;
+      opacity: 0.35 !important;
     }
 
     .hero-circle--yellow {
@@ -652,6 +659,7 @@ const subtitle = "web developer / ai-first engineer";
       height: 60px !important;
       top: 25% !important;
       left: 5% !important;
+      opacity: 0.35 !important;
     }
 
     .hero-squiggle {
@@ -659,6 +667,7 @@ const subtitle = "web developer / ai-first engineer";
       height: 30px !important;
       bottom: 15% !important;
       right: 5% !important;
+      opacity: 0.40 !important;
     }
 
     .hero-zigzag {
@@ -666,6 +675,7 @@ const subtitle = "web developer / ai-first engineer";
       height: 45px !important;
       top: 15% !important;
       left: 2% !important;
+      opacity: 0.40 !important;
     }
 
     .hero-dots {
@@ -673,6 +683,7 @@ const subtitle = "web developer / ai-first engineer";
       height: 120px !important;
       bottom: 25% !important;
       right: 15% !important;
+      opacity: 0.18 !important;
     }
 
     .hero-blob {
@@ -681,6 +692,7 @@ const subtitle = "web developer / ai-first engineer";
       top: 55% !important;
       left: 45% !important;
       filter: blur(20px) !important;
+      opacity: 0.18 !important;
     }
 
     .hero-grid {
@@ -688,6 +700,7 @@ const subtitle = "web developer / ai-first engineer";
       height: 120px !important;
       right: 2% !important;
       bottom: 8% !important;
+      opacity: 0.18 !important;
     }
     
     .hero {
