@@ -492,7 +492,7 @@ import projects from "../data/projects.json";
       width: 100%;
       height: auto !important;
       max-height: 70px !important; /* Set standard height in collapsed state */
-      min-height: auto !important;
+      min-height: 70px !important; /* Force standard collapsed height so it never shrinks to 0px lines */
       flex: none !important; /* Disable flex scale */
       overflow: hidden;
       transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
