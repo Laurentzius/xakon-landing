@@ -705,7 +705,7 @@ import projects from "../data/projects.json";
     top: 50%;
     left: -5%;
     animation: morph-blob 16s ease-in-out infinite, blob-float-rotate 20s ease-in-out infinite;
-    filter: blur(50px);
+    filter: blur(20px);
     transition: scale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
                 filter 0.3s ease, 
                 opacity 0.3s ease;
@@ -715,7 +715,7 @@ import projects from "../data/projects.json";
   .projects-blob.decor-active {
     scale: 1.15;
     opacity: 0.25 !important;
-    filter: blur(50px) saturate(1.5) contrast(1.1);
+    filter: blur(20px) saturate(1.5) contrast(1.1);
   }
 
   @keyframes morph-blob {
