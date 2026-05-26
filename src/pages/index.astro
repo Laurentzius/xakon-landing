@@ -123,8 +123,8 @@ import Contact from "../components/Contact.astro";
 
   /* ── Parallax scroll ── */
   (function() {
+    if (window.innerWidth <= 992) return;
     const layers = [
-      { sel: ".hero-decor .hero-circle--red", speed: 0.15 },
       { sel: ".hero-decor .hero-circle--blue", speed: -0.2 },
       { sel: ".hero-decor .hero-circle--yellow", speed: 0.25 },
       { sel: ".hero-decor .hero-blob", speed: -0.12 },
@@ -234,12 +234,14 @@ import Contact from "../components/Contact.astro";
       clickedEl.addEventListener("click", function(e) {
         e.stopPropagation();
 
-        var turningOn = !clickedEl.classList.contains("decor-active");
-        document.documentElement.toggleAttribute("data-decor-active", turningOn);
-
         // Clear any running wave timeouts
         timeouts.forEach(clearTimeout);
         timeouts = [];
+
+        // Reset all elements immediately to prevent overlapping state issues
+        decorEls.forEach(function(el) {
+          el.classList.remove("decor-active");
+        });
 
         // Get center of the clicked element
         var clickedRect = clickedEl.getBoundingClientRect();
@@ -265,14 +267,19 @@ import Contact from "../components/Contact.astro";
         // Speed: 0.3ms per pixel is the perfect balance for propagation
         targets.forEach(function(item) {
           var delay = item.dist * 0.3;
-          var t = setTimeout(function() {
-            if (turningOn) {
-              item.el.classList.add("decor-active");
-            } else {
+          
+          // Phase 1: Light up the element
+          var t1 = setTimeout(function() {
+            item.el.classList.add("decor-active");
+            
+            // Phase 2: Automatically turn it off after 1000ms
+            var t2 = setTimeout(function() {
               item.el.classList.remove("decor-active");
-            }
+            }, 1000);
+            timeouts.push(t2);
+            
           }, delay);
-          timeouts.push(t);
+          timeouts.push(t1);
         });
       });
     });
