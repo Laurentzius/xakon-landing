@@ -52,6 +52,10 @@ import Contact from "../components/Contact.astro";
     document.addEventListener("mousemove", function(e) {
       mx = e.clientX;
       my = e.clientY;
+      if (!dot.style.opacity || dot.style.opacity === "0") {
+        dot.style.opacity = "1";
+        ring.style.opacity = "1";
+      }
     });
 
     function lerp(a, b, t) { return a + (b - a) * t; }
@@ -69,15 +73,10 @@ import Contact from "../components/Contact.astro";
     }
     animate();
 
-    document.addEventListener("mouseenter", function() {
-      dot.style.opacity = 1;
-      ring.style.opacity = 1;
-    });
     document.addEventListener("mouseleave", function() {
-      dot.style.opacity = 0;
-      ring.style.opacity = 0;
+      dot.style.opacity = "0";
+      ring.style.opacity = "0";
     });
-
     /* ── Hover effect on interactive elements ── */
     var INTERACTIVE = 'a, button, [role="button"], .carousel-btn, .contact-link, .hero-circle, .hero-squiggle, .hero-zigzag, .hero-blob, .hero-grid, .hero-dots, .projects-circle, .projects-squiggle, .projects-zigzag, .projects-blob, .projects-dots, .contact-circle, .contact-squiggle, .contact-zigzag, .contact-blob, .contact-dots';
 
@@ -339,7 +338,8 @@ import Contact from "../components/Contact.astro";
   }
 
   /* Hide default cursor — only custom cursor visible */
+  :global(html),
+  :global(body),
   :global(*) {
     cursor: none !important;
   }
-</style>
