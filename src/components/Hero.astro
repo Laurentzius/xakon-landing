@@ -180,6 +180,18 @@ const subtitle = "web developer / ai-first engineer";
       // Force reflow
       decor.offsetHeight;
 
+      // Brighten all shapes to match hover state
+      decor.querySelectorAll(SHAPES).forEach(function(s) {
+        if (s.classList.contains('hero-grid') || s.classList.contains('hero-dots')) {
+          s.style.scale = '1.08';
+          s.style.opacity = '0.3';
+        } else {
+          s.style.scale = '1.18';
+          s.style.opacity = '0.45';
+          s.style.filter = 'drop-shadow(8px 8px 0 rgba(0, 0, 0, 0.1)) saturate(1.3)';
+        }
+      });
+
       // Playful springy transition on physical boundaries (no squashing of shapes)
       var spring = '0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1)';
       decor.style.transition = 'top ' + spring + ', left ' + spring + ', width ' + spring + ', height ' + spring + ', border-radius ' + spring;
@@ -196,6 +208,11 @@ const subtitle = "web developer / ai-first engineer";
 
     function collapse() {
       if (!savedRect) return;
+
+      // Reset shape brightness so they fade back during the collapse animation
+      decor.querySelectorAll(SHAPES).forEach(function(s) {
+        s.style.scale = s.style.opacity = s.style.filter = '';
+      });
 
       // Set overflow: hidden IMMEDIATELY at the start of collapse so the shapes'
       // clipping mask transitions smoothly instead of snapping at the very end.
