@@ -619,34 +619,35 @@ import projects from "../data/projects.json";
 
   .projects-squiggle,
   .projects-zigzag {
-    filter: blur(1.5px);
   }
 
   .projects-squiggle:hover,
+  .projects-squiggle.decor-active {
+    scale: 1.18;
+    opacity: 0.45 !important;
+  }
+
   .projects-zigzag:hover,
-  .projects-squiggle.decor-active,
   .projects-zigzag.decor-active {
     scale: 1.18;
     opacity: 0.45 !important;
-    filter: blur(1px) saturate(1.5);
+    filter: saturate(1.5);
   }
 
   .projects-dots {
-    filter: blur(1px);
   }
 
   .projects-dots:hover,
   .projects-dots.decor-active {
     scale: 1.08;
     opacity: 0.3 !important;
-    filter: blur(0.5px) saturate(1.5);
+    filter: saturate(1.5);
   }
 
   .projects-circle {
     position: absolute;
     border-radius: 50%;
     opacity: 0.1;
-    filter: blur(3px);
     transition: scale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
                 filter 0.3s ease, 
                 opacity 0.3s ease;
@@ -654,19 +655,16 @@ import projects from "../data/projects.json";
 
   .projects-circle:hover,
   .projects-circle.decor-active {
-    animation-play-state: paused;
     scale: 1.18;
     opacity: 0.45 !important;
-    filter: blur(3px) saturate(1.5) contrast(1.1);
   }
-
   .projects-circle--green {
     width: 220px;
     height: 220px;
     background: radial-gradient(circle at 30% 30%, var(--green) 0%, var(--blue) 45%, var(--purple) 100%);
     bottom: -60px;
     left: -80px;
-    animation: float-complex 18s ease-in-out infinite, color-drift-circle 10s linear infinite;
+    animation: float-complex 18s ease-in-out infinite, color-drift-glow 10s linear infinite;
   }
 
   .projects-circle--pink {
@@ -675,7 +673,7 @@ import projects from "../data/projects.json";
     background: radial-gradient(circle at 30% 30%, var(--pink) 0%, var(--purple) 45%, var(--blue) 100%);
     top: -40px;
     right: -50px;
-    animation: float-complex 22s ease-in-out infinite reverse, color-drift-circle 10s linear infinite reverse;
+    animation: float-complex 22s ease-in-out infinite reverse, color-drift-glow 10s linear infinite reverse;
     opacity: 0.08;
   }
 
@@ -685,7 +683,7 @@ import projects from "../data/projects.json";
     background: radial-gradient(circle at 30% 30%, var(--orange) 0%, var(--red) 45%, var(--purple) 100%);
     top: 40%;
     left: 10%;
-    animation: float-complex 12s ease-in-out infinite, color-drift-circle 10s linear infinite;
+    animation: float-complex 12s ease-in-out infinite, color-drift-glow 10s linear infinite;
     opacity: 0.08;
   }
 
@@ -695,7 +693,7 @@ import projects from "../data/projects.json";
     height: 50px;
     top: 18%;
     right: 5%;
-    animation: squiggle-drift 10s ease-in-out infinite alternate, color-drift-squiggle 8s linear infinite;
+    animation: squiggle-drift 10s ease-in-out infinite alternate, color-drift-glow 8s linear infinite;
   }
 
   .projects-dots {
@@ -727,8 +725,7 @@ import projects from "../data/projects.json";
     opacity: 0.08;
     top: 50%;
     left: -5%;
-    animation: morph-blob 16s ease-in-out infinite, float-complex 20s ease-in-out infinite, color-drift-blob 10s linear infinite;
-    filter: blur(1.5px);
+    animation: morph-blob 16s ease-in-out infinite, float-complex 20s ease-in-out infinite, color-drift-glow 10s linear infinite;
     transition: scale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
                 filter 0.3s ease, 
                 opacity 0.3s ease;
@@ -736,10 +733,8 @@ import projects from "../data/projects.json";
 
   .projects-blob:hover,
   .projects-blob.decor-active {
-    animation-play-state: paused;
     scale: 1.15;
     opacity: 0.25 !important;
-    filter: blur(1.5px) saturate(1.5) contrast(1.1);
   }
 
   @keyframes morph-blob {
@@ -771,27 +766,11 @@ import projects from "../data/projects.json";
     100% { transform: translate(0, 0) rotate(360deg) scale(1); }
   }
 
-  @keyframes color-drift-circle {
-    0% { filter: blur(3px) hue-rotate(0deg) saturate(1); }
-    25% { filter: blur(3px) hue-rotate(90deg) saturate(1.2); }
-    50% { filter: blur(3px) hue-rotate(180deg) saturate(1); }
-    75% { filter: blur(3px) hue-rotate(270deg) saturate(1.1); }
-    100% { filter: blur(3px) hue-rotate(360deg) saturate(1); }
-  }
-
-  @keyframes color-drift-blob {
-    0% { filter: blur(1.5px) hue-rotate(0deg) saturate(1); }
-    25% { filter: blur(1.5px) hue-rotate(90deg) saturate(1.2); }
-    50% { filter: blur(1.5px) hue-rotate(180deg) saturate(1); }
-    75% { filter: blur(1.5px) hue-rotate(270deg) saturate(1.1); }
-    100% { filter: blur(1.5px) hue-rotate(360deg) saturate(1); }
-  }
-
-  @keyframes color-drift-squiggle {
-    0% { filter: blur(1.5px) hue-rotate(0deg) saturate(1); }
-    25% { filter: blur(1.5px) hue-rotate(90deg) saturate(1.2); }
-    50% { filter: blur(1.5px) hue-rotate(180deg) saturate(1); }
-    75% { filter: blur(1.5px) hue-rotate(270deg) saturate(1.1); }
-    100% { filter: blur(1.5px) hue-rotate(360deg) saturate(1); }
+  @keyframes color-drift-glow {
+    0% { filter: hue-rotate(0deg) saturate(1); }
+    25% { filter: hue-rotate(90deg) saturate(1.2); }
+    50% { filter: hue-rotate(180deg) saturate(1); }
+    75% { filter: hue-rotate(270deg) saturate(1.1); }
+    100% { filter: hue-rotate(360deg) saturate(1); }
   }
 </style>

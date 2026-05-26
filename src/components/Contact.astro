@@ -162,34 +162,35 @@ const links = [
 
   .contact-squiggle,
   .contact-zigzag {
-    filter: blur(1.5px);
   }
 
   .contact-squiggle:hover,
+  .contact-squiggle.decor-active {
+    scale: 1.18;
+    opacity: 0.45 !important;
+  }
+
   .contact-zigzag:hover,
-  .contact-squiggle.decor-active,
   .contact-zigzag.decor-active {
     scale: 1.18;
     opacity: 0.45 !important;
-    filter: blur(1px) saturate(1.5);
+    filter: saturate(1.5);
   }
 
   .contact-dots {
-    filter: blur(1px);
   }
 
   .contact-dots:hover,
   .contact-dots.decor-active {
     scale: 1.08;
     opacity: 0.3 !important;
-    filter: blur(0.5px) saturate(1.5);
+    filter: saturate(1.5);
   }
 
   .contact-circle {
     position: absolute;
     border-radius: 50%;
     opacity: 0.1;
-    filter: blur(3px);
     transition: scale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
                 filter 0.3s ease, 
                 opacity 0.3s ease;
@@ -197,10 +198,8 @@ const links = [
 
   .contact-circle:hover,
   .contact-circle.decor-active {
-    animation-play-state: paused;
     scale: 1.18;
     opacity: 0.45 !important;
-    filter: blur(3px) saturate(1.5) contrast(1.1);
   }
 
   .contact-circle--blue {
@@ -209,7 +208,7 @@ const links = [
     background: radial-gradient(circle at 30% 30%, var(--blue) 0%, var(--purple) 45%, var(--pink) 100%);
     top: 20%;
     right: -60px;
-    animation: float-complex 18s ease-in-out infinite, color-drift-circle 10s linear infinite;
+    animation: float-complex 18s ease-in-out infinite, color-drift-glow 10s linear infinite;
   }
 
   .contact-circle--red {
@@ -218,7 +217,7 @@ const links = [
     background: radial-gradient(circle at 30% 30%, var(--red) 0%, var(--pink) 45%, var(--orange) 100%);
     bottom: 15%;
     left: -40px;
-    animation: float-complex 20s ease-in-out infinite reverse, color-drift-circle 10s linear infinite reverse;
+    animation: float-complex 20s ease-in-out infinite reverse, color-drift-glow 10s linear infinite reverse;
     opacity: 0.08;
   }
 
@@ -228,7 +227,7 @@ const links = [
     background: radial-gradient(circle at 30% 30%, var(--yellow) 0%, var(--orange) 45%, var(--red) 100%);
     top: 50%;
     left: 20%;
-    animation: float-complex 14s ease-in-out infinite, color-drift-circle 10s linear infinite;
+    animation: float-complex 14s ease-in-out infinite, color-drift-glow 10s linear infinite;
     opacity: 0.08;
   }
 
@@ -238,7 +237,7 @@ const links = [
     right: 10%;
     transform: rotate(-10deg);
     width: 120px;
-    animation: squiggle-drift 7s ease-in-out infinite alternate, color-drift-squiggle 8s linear infinite;
+    animation: squiggle-drift 7s ease-in-out infinite alternate, color-drift-glow 8s linear infinite;
   }
 
   .contact-dots {
@@ -270,8 +269,7 @@ const links = [
     opacity: 0.08;
     bottom: 5%;
     right: 30%;
-    animation: morph-blob 15s ease-in-out infinite, float-complex 22s ease-in-out infinite, color-drift-blob 10s linear infinite;
-    filter: blur(1.5px);
+    animation: morph-blob 15s ease-in-out infinite, float-complex 22s ease-in-out infinite, color-drift-glow 10s linear infinite;
     transition: scale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
                 filter 0.3s ease, 
                 opacity 0.3s ease;
@@ -279,10 +277,8 @@ const links = [
 
   .contact-blob:hover,
   .contact-blob.decor-active {
-    animation-play-state: paused;
     scale: 1.15;
     opacity: 0.25 !important;
-    filter: blur(1.5px) saturate(1.6) contrast(1.1);
   }
 
   @keyframes morph-blob {
@@ -431,27 +427,11 @@ const links = [
     transform: translateX(0);
   }
 
-  @keyframes color-drift-circle {
-    0% { filter: blur(3px) hue-rotate(0deg) saturate(1); }
-    25% { filter: blur(3px) hue-rotate(90deg) saturate(1.2); }
-    50% { filter: blur(3px) hue-rotate(180deg) saturate(1); }
-    75% { filter: blur(3px) hue-rotate(270deg) saturate(1.1); }
-    100% { filter: blur(3px) hue-rotate(360deg) saturate(1); }
-  }
-
-  @keyframes color-drift-blob {
-    0% { filter: blur(1.5px) hue-rotate(0deg) saturate(1); }
-    25% { filter: blur(1.5px) hue-rotate(90deg) saturate(1.2); }
-    50% { filter: blur(1.5px) hue-rotate(180deg) saturate(1); }
-    75% { filter: blur(1.5px) hue-rotate(270deg) saturate(1.1); }
-    100% { filter: blur(1.5px) hue-rotate(360deg) saturate(1); }
-  }
-
-  @keyframes color-drift-squiggle {
-    0% { filter: blur(1.5px) hue-rotate(0deg) saturate(1); }
-    25% { filter: blur(1.5px) hue-rotate(90deg) saturate(1.2); }
-    50% { filter: blur(1.5px) hue-rotate(180deg) saturate(1); }
-    75% { filter: blur(1.5px) hue-rotate(270deg) saturate(1.1); }
-    100% { filter: blur(1.5px) hue-rotate(360deg) saturate(1); }
+  @keyframes color-drift-glow {
+    0% { filter: hue-rotate(0deg) saturate(1); }
+    25% { filter: hue-rotate(90deg) saturate(1.2); }
+    50% { filter: hue-rotate(180deg) saturate(1); }
+    75% { filter: hue-rotate(270deg) saturate(1.1); }
+    100% { filter: hue-rotate(360deg) saturate(1); }
   }
 </style>
