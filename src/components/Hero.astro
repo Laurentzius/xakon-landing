@@ -190,12 +190,6 @@ const subtitle = "web developer / ai-first engineer";
       decor.style.height = '100vh';
       decor.style.borderRadius = '0';
 
-      // Add hint
-      var hint = document.createElement('div');
-      hint.id = 'fullscreen-hint';
-      hint.textContent = 'esc \u2190 exit';
-      hint.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);font:700 0.65rem/1 Space\\ Grotesk,sans-serif;letter-spacing:0.12em;text-transform:uppercase;color:var(--black);opacity:0.3;pointer-events:none;z-index:9999;transition:opacity 0.3s';
-      document.body.appendChild(hint);
 
       isFull = true;
     }
@@ -215,10 +209,6 @@ const subtitle = "web developer / ai-first engineer";
       decor.style.width = savedRect.width + 'px';
       decor.style.height = savedRect.height + 'px';
       decor.style.borderRadius = '24px';
-
-      // Remove hint
-      var hint = document.getElementById('fullscreen-hint');
-      if (hint) hint.remove();
 
       // Track all transitioning properties to ensure 100% complete rendering before cleanup
       var pendingProps = ['top', 'left', 'width', 'height', 'border-radius'];
