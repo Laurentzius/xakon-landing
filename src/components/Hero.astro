@@ -155,19 +155,6 @@ const subtitle = "web developer / ai-first engineer";
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && isFull) collapse();
     });
-    window.addEventListener('resize', function() {
-      if (isFull) {
-        isFull = false;
-        savedRect = null;
-        decor.getAnimations().forEach(function(a) { a.cancel(); });
-        decor.style.position = 'absolute';
-        decor.style.inset = decor.style.width = decor.style.height = decor.style.overflow = decor.style.zIndex = decor.style.margin = decor.style.transformOrigin = decor.style.transform = decor.style.borderRadius = decor.style.transition = '';
-        decor.querySelectorAll(SHAPES).forEach(function(s) {
-          s.style.scale = s.style.opacity = s.style.filter = '';
-          s.classList.remove('decor-active');
-        });
-      }
-    });
 
     function expand() {
       var rect = decor.getBoundingClientRect();
@@ -220,6 +207,35 @@ const subtitle = "web developer / ai-first engineer";
     }
 
     function collapse() {
+      // Temporarily clear inline styles and measure correct position of the collapsed container
+      var oldTop = decor.style.top;
+      var oldLeft = decor.style.left;
+      var oldWidth = decor.style.width;
+      var oldHeight = decor.style.height;
+      var oldPosition = decor.style.position;
+      var oldInset = decor.style.inset;
+      var oldOverflow = decor.style.overflow;
+      var oldZIndex = decor.style.zIndex;
+      var oldMargin = decor.style.margin;
+      var oldTransform = decor.style.transform;
+      var oldBorderRadius = decor.style.borderRadius;
+      decor.style.transition = 'none';
+      decor.style.position = '';
+      decor.style.inset = decor.style.width = decor.style.height = decor.style.overflow = decor.style.zIndex = decor.style.margin = decor.style.transform = decor.style.borderRadius = '';
+      var newRect = decor.getBoundingClientRect();
+      decor.style.position = oldPosition;
+      decor.style.inset = oldInset;
+      decor.style.top = oldTop;
+      decor.style.left = oldLeft;
+      decor.style.width = oldWidth;
+      decor.style.height = oldHeight;
+      decor.style.overflow = oldOverflow;
+      decor.style.zIndex = oldZIndex;
+      decor.style.margin = oldMargin;
+      decor.style.transform = oldTransform;
+      decor.style.borderRadius = oldBorderRadius;
+      decor.offsetHeight; // Force reflow
+      savedRect = newRect;
       if (!savedRect) return;
 
       // Reset shape brightness so they fade back during the collapse animation
