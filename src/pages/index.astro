@@ -232,8 +232,9 @@ import Contact from "../components/Contact.astro";
 
     decorEls.forEach(function(clickedEl) {
       clickedEl.addEventListener("click", function(e) {
-        e.stopPropagation();
-
+        if (!clickedEl.closest("#hero-decor")) {
+          e.stopPropagation();
+        }
         // Clear any running wave timeouts
         timeouts.forEach(clearTimeout);
         timeouts = [];
