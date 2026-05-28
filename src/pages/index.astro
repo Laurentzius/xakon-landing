@@ -235,22 +235,19 @@ import Contact from "../components/Contact.astro";
         if (!clickedEl.closest("#hero-decor")) {
           e.stopPropagation();
         }
+        // Isolate elements to the clicked section's container only
+        var container = clickedEl.closest(".hero-decor, .projects-decor, .contact-decor");
+        var sectionDecorEls = container ? container.querySelectorAll("[data-decor]") : [clickedEl];
+        var turningOn = !clickedEl.classList.contains("decor-active");
         // Clear any running wave timeouts
         timeouts.forEach(clearTimeout);
         timeouts = [];
-
-        // Reset all elements immediately to prevent overlapping state issues
-        decorEls.forEach(function(el) {
-          el.classList.remove("decor-active");
-        });
-
         // Get center of the clicked element
         var clickedRect = clickedEl.getBoundingClientRect();
         var clickedX = clickedRect.left + clickedRect.width / 2;
         var clickedY = clickedRect.top + clickedRect.height / 2;
-
-        // Calculate Euclidean distance for all elements
-        var targets = Array.from(decorEls).map(function(el) {
+        // Calculate Euclidean distance for elements in the same section
+        var targets = Array.from(sectionDecorEls).map(function(el) {
           var rect = el.getBoundingClientRect();
           var x = rect.left + rect.width / 2;
           var y = rect.top + rect.height / 2;
@@ -259,28 +256,21 @@ import Contact from "../components/Contact.astro";
           var dist = Math.sqrt(dx * dx + dy * dy);
           return { el: el, dist: dist };
         });
-
         // Sort by distance (ascending) to ripple outward from click point
         targets.sort(function(a, b) {
           return a.dist - b.dist;
         });
-
         // Speed: 0.3ms per pixel is the perfect balance for propagation
         targets.forEach(function(item) {
           var delay = item.dist * 0.3;
-          
-          // Phase 1: Light up the element
-          var t1 = setTimeout(function() {
-            item.el.classList.add("decor-active");
-            
-            // Phase 2: Automatically turn it off after 1000ms
-            var t2 = setTimeout(function() {
+          var t = setTimeout(function() {
+            if (turningOn) {
+              item.el.classList.add("decor-active");
+            } else {
               item.el.classList.remove("decor-active");
-            }, 1000);
-            timeouts.push(t2);
-            
+            }
           }, delay);
-          timeouts.push(t1);
+          timeouts.push(t);
         });
       });
     });

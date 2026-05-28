@@ -212,6 +212,7 @@ const subtitle = "web developer / ai-first engineer";
       // Reset shape brightness so they fade back during the collapse animation
       decor.querySelectorAll(SHAPES).forEach(function(s) {
         s.style.scale = s.style.opacity = s.style.filter = '';
+        s.classList.remove('decor-active');
       });
 
       // Set overflow: hidden IMMEDIATELY at the start of collapse so the shapes'
