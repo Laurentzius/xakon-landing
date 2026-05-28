@@ -123,7 +123,6 @@ import Contact from "../components/Contact.astro";
 
   /* ── Parallax scroll ── */
   (function() {
-    if (window.innerWidth <= 992) return;
     const layers = [
       { sel: ".hero-decor .hero-circle--blue", speed: -0.2 },
       { sel: ".hero-decor .hero-circle--yellow", speed: 0.25 },
@@ -147,15 +146,19 @@ import Contact from "../components/Contact.astro";
       { sel: ".projects-decor .projects-squiggle", speed: -0.14 },
       { sel: ".projects-decor .projects-zigzag", speed: 0.16 },
     ];
-
     const els = layers.map(l => {
       const el = document.querySelector(l.sel);
       return el ? { el, speed: l.speed } : null;
     }).filter(Boolean);
-
     if (!els.length) return;
-
     function update() {
+      if (window.innerWidth <= 992) {
+        // Clear parallax margins when viewport is small
+        els.forEach(({ el }) => {
+          el.style.marginTop = '';
+        });
+        return;
+      }
       const sy = window.scrollY;
       const vh = window.innerHeight;
       els.forEach(({ el, speed }) => {
@@ -165,7 +168,6 @@ import Contact from "../components/Contact.astro";
         el.style.marginTop = `${progress * vh * speed * 0.3}px`;
       });
     }
-
     let ticking = false;
     window.addEventListener("scroll", () => {
       if (!ticking) {
@@ -173,8 +175,10 @@ import Contact from "../components/Contact.astro";
         ticking = true;
       }
     });
+    window.addEventListener("resize", () => {
+      update();
+    });
     update();
-
   /* ── Section scroll (one section per wheel tick) ── */
   (function() {
     var SECTIONS = [
@@ -336,11 +340,13 @@ import Contact from "../components/Contact.astro";
       border-color: transparent;
     }
 
-    /* Hide default cursor — only custom cursor visible */
-    :global(html),
-    :global(body),
-    :global(*) {
-      cursor: none !important;
+    /* Hide default cursor — only custom cursor visible on screens larger than 992px */
+    @media (min-width: 993px) {
+      :global(html),
+      :global(body),
+      :global(*) {
+        cursor: none !important;
+      }
     }
   }
 
